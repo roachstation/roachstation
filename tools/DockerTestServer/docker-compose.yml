@@ -3,7 +3,7 @@ version: '3.9'
 services:
   # /tg/ DM server
   dreammaker:
-    image: tgstation:latest
+    image: roachstation:latest
     restart: unless-stopped
     build:
       context: ../../
@@ -11,28 +11,28 @@ services:
     entrypoint: bash /entrypoint.sh
     env_file:
      - .env
-    ports: 
+    ports:
       - "1337:1337"
     depends_on:
       - db
     volumes:
       - ./entrypoint.sh:/entrypoint.sh:ro #
-      - ../../config:/gamecfg_ro:ro # Contains the default configuration, as defined in config/ 
+      - ../../config:/gamecfg_ro:ro # Contains the default configuration, as defined in config/
       - ./gamecfg:/gamecfg:ro # Contains the override config files, entrypoint.sh overrides using these
-      - gamedata:/tgstation/data # Contains the game data, contained nicely in a volume
+      - gamedata:/roachstation/data # Contains the game data, contained nicely in a volume
 
-  # MariaDB/MySQL database: game 
+  # MariaDB/MySQL database: game
   # (if you don't really need this, feel free to remove this section.)
   db:
     image: mariadb
     restart: unless-stopped
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_DATABASE=tgstation
+      - MYSQL_DATABASE=roachstation
       - MYSQL_USER=gamelord
       - MYSQL_PASSWORD=gamelord
-    volumes: 
-        - ../../SQL/tgstation_schema.sql:/docker-entrypoint-initdb.d/tgstation_schema.sql:ro
+    volumes:
+        - ../../SQL/roachstation_schema.sql:/docker-entrypoint-initdb.d/roachstation_schema.sql:ro
         - database:/var/lib/mysql
 
   # Adminer, for managing the DB, has the 'donotstart' profile attached by default. Remove this line if this is needed
@@ -43,7 +43,7 @@ services:
     environment:
       ADMINER_DEFAULT_DB_DRIVER: mysql
       ADMINER_DEFAULT_DB_HOST: db
-      ADMINER_DEFAULT_DB_NAME: tgstation
+      ADMINER_DEFAULT_DB_NAME: roachstation
       ADMINER_DESIGN: nette
       ADMINER_PLUGINS: tables-filter tinymce
     ports:
