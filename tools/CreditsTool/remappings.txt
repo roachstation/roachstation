@@ -5,7 +5,7 @@
 # e.g.
 # Cyberboss __REMOVE__
 
-tgstation-server Thanks for playing!
+roachstation-server Thanks for playing!
 
 optimumtact oranges
 qustinnus Floyd / Qustinnus
