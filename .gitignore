@@ -1,3 +1,4 @@
+/config/dbconfig.txt
 ###Files and folders specified here will never be tracked.
 
 #Ignore everything in datafolder and subdirectories
