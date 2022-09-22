@@ -18,4 +18,5 @@ TO MAKE A CHANGELOG .YML ENTRRY
 
 #######################################################
 
-If you have trouble ask for help in #coderbus or read https://tgstation13.org/wiki/Guide_to_Changelogs
+If you have trouble ask for help in #coderbus or read https://roachstation.github.io/wiki
+Guide_to_Changelogs

@@ -285,13 +285,13 @@
 /datum/config_entry/string/banappeals
 
 /datum/config_entry/string/wikiurl
-	default = "http://www.tgstation13.org/wiki"
+	default = "https://roachstation.github.io/wiki"
 
 /datum/config_entry/string/forumurl
-	default = "http://tgstation13.org/phpBB/index.php"
+	default = "https://discord.gg/9HEcs6qwzk"
 
 /datum/config_entry/string/rulesurl
-	default = "http://www.tgstation13.org/wiki/Rules"
+	default = "https://roachstation.github.io/wiki/Rules"
 
 /datum/config_entry/string/githuburl
 	default = "https://www.github.com/roachstation/roachstation"

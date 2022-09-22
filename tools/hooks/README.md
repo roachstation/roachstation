@@ -32,5 +32,7 @@ again, but modifying them does not. See existing `.hook` and `.merge` files for 
 [hooks]: https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks
 [merge drivers]: https://git-scm.com/docs/gitattributes#_performing_a_three_way_merge
 [mapmerge2]: ../mapmerge2/README.md
-[fix icon conflicts]: https://tgstation13.org/wiki/Resolving_icon_conflicts
-[fix map conflicts]: https://tgstation13.org/wiki/Map_Merger
+[fix icon conflicts]: https://roachstation.github.io/wiki
+Resolving_icon_conflicts
+[fix map conflicts]: https://roachstation.github.io/wiki
+Map_Merger
