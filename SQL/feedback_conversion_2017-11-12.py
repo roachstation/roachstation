@@ -490,7 +490,7 @@ elif 'mariadb' not in db_version:
     if choice == "yes":
         database_mysql = True
 if database_mysql == True:
-    print("WARNING Database detected to be MySQL: tgstation no longer supports MySQL which has been superseded by MariaDB, a drop-in replacement.\nBefore running this script you will need to migrate to MariaDB.\nMigrating is very easy to do, for details on how see: https://mariadb.com/kb/en/library/upgrading-from-mysql-to-mariadb/")
+    print("WARNING Database detected to be MySQL: roachstation no longer supports MySQL which has been superseded by MariaDB, a drop-in replacement.\nBefore running this script you will need to migrate to MariaDB.\nMigrating is very easy to do, for details on how see: https://mariadb.com/kb/en/library/upgrading-from-mysql-to-mariadb/")
     input("Press enter to quit...")
     quit()
 current_table = args.curtable

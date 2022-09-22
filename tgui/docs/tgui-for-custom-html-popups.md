@@ -35,7 +35,7 @@ window.close()
 
 ## Sending assets
 
-TGUI in /tg/station codebase has `/datum/asset`, that packs scripts and stylesheets for delivery via CDN for efficiency. TGUI internally uses this asset system to render TGUI interfaces *proper* and TGUI chat. This is a snippet from internal TGUI code:
+TGUI in roachstation codebase has `/datum/asset`, that packs scripts and stylesheets for delivery via CDN for efficiency. TGUI internally uses this asset system to render TGUI interfaces *proper* and TGUI chat. This is a snippet from internal TGUI code:
 
 ```dm
 window.initialize(

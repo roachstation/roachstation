@@ -184,9 +184,9 @@ export class Changelog extends Component {
         </p>
         <p>
           {'Current project maintainers can be found '}
-          <a href="https://github.com/tgstation?tab=members">here</a>
+          <a href="https://github.com/roachstation?tab=members">here</a>
           {', recent GitHub contributors can be found '}
-          <a href="https://github.com/tgstation/tgstation/pulse/monthly">
+          <a href="https://github.com/roachstation/roachstation/pulse/monthly">
             here
           </a>
           .
@@ -244,11 +244,11 @@ export class Changelog extends Component {
           {'. All code before that commit is licensed under '}
           <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL v3</a>
           {', including tools unless their readme specifies otherwise. See '}
-          <a href="https://github.com/tgstation/tgstation/blob/master/LICENSE">
+          <a href="https://github.com/roachstation/roachstation/blob/master/LICENSE">
             LICENSE
           </a>
           {' and '}
-          <a href="https://github.com/tgstation/tgstation/blob/master/GPLv3.txt">
+          <a href="https://github.com/roachstation/roachstation/blob/master/GPLv3.txt">
             GPLv3.txt
           </a>
           {' for more details.'}
@@ -258,7 +258,7 @@ export class Changelog extends Component {
           {' See the footer of '}
           <a
             href={
-              'https://github.com/tgstation/tgstation/blob/master' +
+              'https://github.com/roachstation/roachstation/blob/master' +
               '/code/__DEFINES/tgs.dm'
             }>
             code/__DEFINES/tgs.dm
@@ -266,7 +266,7 @@ export class Changelog extends Component {
           {' and '}
           <a
             href={
-              'https://github.com/tgstation/tgstation/blob/master' +
+              'https://github.com/roachstation/roachstation/blob/master' +
               '/code/modules/tgs/LICENSE'
             }>
             code/modules/tgs/LICENSE

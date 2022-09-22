@@ -8,9 +8,9 @@ PURPLE='\033[00;35m'
 # Docker entrypoint
 # =================
 # What this will do:
-# 1) Copy the default config/ files from the read-only volume to /tgstation/config/
-# 2) Override files under /tgstation/config/ with files present in /gamecfg/
-# 3) Process environment variables passed to the container into /tgstation/config/
+# 1) Copy the default config/ files from the read-only volume to /roachstation/config/
+# 2) Override files under /roachstation/config/ with files present in /gamecfg/
+# 3) Process environment variables passed to the container into /roachstation/config/
 # 4) Finally start the DreamDaemon
 
 # Override game config files

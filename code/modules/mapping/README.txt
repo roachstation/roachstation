@@ -1,5 +1,5 @@
 The code in this module originally evolved from dmm_suite and has since been
-specialized for SS13 and otherwise tweaked to fit /tg/station's needs.
+specialized for SS13 and otherwise tweaked to fit roachstation's needs.
 
 dmm_suite version 1.0
 	Released January 30th, 2011.
