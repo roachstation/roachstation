@@ -2,7 +2,7 @@
 
 ## Introduction
 
-tgui is a robust user interface framework of /tg/station.
+tgui is a robust user interface framework of roachstation.
 
 tgui is very different from most UIs you will encounter in BYOND programming. It is heavily reliant on Javascript and web technologies as opposed to DM. If you are familiar with NanoUI (a library which can be found on almost every other SS13 codebase), tgui should be fairly easy to pick up.
 
