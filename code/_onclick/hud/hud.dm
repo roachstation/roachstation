@@ -23,7 +23,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 
 	var/hud_shown = TRUE //Used for the HUD toggle (F12)
 	var/hud_version = HUD_STYLE_STANDARD //Current displayed version of the HUD
-	var/inventory_shown = FALSE //Equipped item inventory
+	var/inventory_shown = TRUE //Equipped item inventory
 	var/hotkey_ui_hidden = FALSE //This is to hide the buttons that can be used via hotkeys. (hotkeybuttons list of buttons)
 
 	var/atom/movable/screen/blobpwrdisplay
@@ -39,6 +39,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/atom/movable/screen/rest_icon
 	var/atom/movable/screen/throw_icon
 	var/atom/movable/screen/module_store_icon
+
+	var/atom/movable/screen/vampire_blood_display
 
 	var/list/static_inventory = list() //the screen objects which are static
 	var/list/toggleable_inventory = list() //the screen objects which can be hidden
@@ -146,6 +148,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	healthdoll = null
 	spacesuit = null
 	blobpwrdisplay = null
+	vampire_blood_display = null
 	alien_plasma_display = null
 	alien_queen_finder = null
 	combo_display = null

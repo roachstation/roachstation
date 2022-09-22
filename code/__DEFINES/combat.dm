@@ -140,7 +140,7 @@
 GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 	/obj/item/gun)))
 
-
+#define IS_HORIZONTAL(x) x.body_position
 //Combat object defines
 
 //Embedded objects

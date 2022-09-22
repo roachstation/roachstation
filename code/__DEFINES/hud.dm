@@ -14,6 +14,8 @@
 #define APPEARANCE_UI_IGNORE_ALPHA (RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR|RESET_ALPHA|PIXEL_SCALE)
 /// Used for HUD objects
 #define APPEARANCE_UI (RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR|PIXEL_SCALE)
+#define SPECIALROLE_HUD "13"
+#define ANTAG_HUD_VAMPIRE 16
 
 /*
 	These defines specificy screen locations.  For more information, see the byond documentation on the screen_loc var.

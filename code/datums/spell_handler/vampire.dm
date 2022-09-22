@@ -3,7 +3,7 @@
 	/// If the blood cost should be handled by this handler. Or if the spell will handle it itself
 	var/deduct_blood_on_cast = TRUE
 
-/datum/spell_handler/vampire/can_cast(mob/user, charge_check, show_message, obj/effect/proc_holder/spell/spell)
+/datum/spell_handler/vampire/can_cast(mob/user, charge_check, show_message, datum/action/cooldown/spell/spell)
 	var/datum/antagonist/vampire/vampire = user.mind.has_antag_datum(/datum/antagonist/vampire)
 
 	if(!vampire)
@@ -24,14 +24,14 @@
 		if(show_message)
 			to_chat(user, "<span class='warning'>You require at least [required_blood] units of usable blood to do that!</span>")
 		return FALSE
-	//chapel check
-	if(istype(get_area(user), /area/chapel) && !fullpower)
+	// chapel check
+	if(istype(get_area(user), /area/station/service/chapel) && !fullpower)
 		if(show_message)
 			to_chat(user, "<span class='warning'>Your powers are useless on this holy ground.</span>")
 		return FALSE
 	return TRUE
 
-/datum/spell_handler/vampire/spend_spell_cost(mob/user, obj/effect/proc_holder/spell/spell)
+/datum/spell_handler/vampire/spend_spell_cost(mob/user, datum/action/cooldown/spell/spell)
 	if(!required_blood || !deduct_blood_on_cast) //don't take the blood yet if this is false!
 		return
 
@@ -44,7 +44,7 @@
 	var/blood_cost = round(required_blood * blood_cost_modifier)
 	return blood_cost
 
-/datum/spell_handler/vampire/after_cast(list/targets, mob/user, obj/effect/proc_holder/spell/spell)
+/datum/spell_handler/vampire/after_cast(list/targets, mob/user, datum/action/cooldown/spell/spell)
 	if(!required_blood)
 		return
 	var/datum/antagonist/vampire/vampire = user.mind.has_antag_datum(/datum/antagonist/vampire)

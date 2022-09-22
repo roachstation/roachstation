@@ -1,4 +1,9 @@
 //This should hold all the vampire related powers
+var/holy_area_cancast = TRUE
+var/include_space = FALSE
+var/inner_tele_radius = 1
+var/outer_tele_radius = 2
+var/include_light_turfs = TRUE
 /mob/living/proc/affects_vampire(mob/user)
 	//Other vampires and thralls aren't affected
 	if(mind?.has_antag_datum(/datum/antagonist/vampire) || mind?.has_antag_datum(/datum/antagonist/mindslave/thrall))
@@ -12,7 +17,7 @@
 		return FALSE
 	return TRUE
 
-/obj/effect/proc_holder/spell/vampire
+/datum/action/cooldown/spell/vampire
 	panel = "Vampire"
 	school = "vampire"
 	action_background_icon_state = "bg_vampire"
@@ -22,13 +27,13 @@
 	var/required_blood
 	var/deduct_blood_on_cast = TRUE
 
-/obj/effect/proc_holder/spell/vampire/create_new_handler()
+/datum/action/cooldown/spell/vampire/create_new_handler()
 	var/datum/spell_handler/vampire/H = new
 	H.required_blood = required_blood
 	H.deduct_blood_on_cast = deduct_blood_on_cast
 	return H
 
-/obj/effect/proc_holder/spell/vampire/self/create_new_targeting()
+/datum/action/cooldown/spell/vampire/self/create_new_targeting()
 	return new /datum/spell_targeting/self
 
 /datum/vampire_passive
@@ -47,14 +52,14 @@
 /datum/vampire_passive/proc/on_apply(datum/antagonist/vampire/V)
 	return
 
-/obj/effect/proc_holder/spell/vampire/self/rejuvenate
+/datum/action/cooldown/spell/vampire/self/rejuvenate
 	name = "Rejuvenate"
 	desc = "Use reserve blood to enliven your body, removing any incapacitating effects."
 	action_icon_state = "vampire_rejuvinate"
 	base_cooldown = 20 SECONDS
 	stat_allowed = UNCONSCIOUS
 
-/obj/effect/proc_holder/spell/vampire/self/rejuvenate/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/vampire/self/rejuvenate/cast(list/targets, mob/user = usr)
 	var/mob/living/U = user
 
 	U.SetWeakened(0)
@@ -70,7 +75,7 @@
 	if(rejuv_bonus)
 		INVOKE_ASYNC(src, .proc/heal, U, rejuv_bonus)
 
-/obj/effect/proc_holder/spell/vampire/self/rejuvenate/proc/heal(mob/living/user, rejuv_bonus)
+/datum/action/cooldown/spell/vampire/self/rejuvenate/proc/heal(mob/living/user, rejuv_bonus)
 	for(var/i in 1 to 5)
 		user.adjustBruteLoss(-2 * rejuv_bonus)
 		user.adjustOxyLoss(-5 * rejuv_bonus)
@@ -93,29 +98,29 @@
 	return 1
 
 
-/obj/effect/proc_holder/spell/vampire/self/specialize
+/datum/action/cooldown/spell/vampire/self/specialize
 	name = "Choose Specialization"
 	desc = "Choose what sub-class of vampire you want to evolve into."
 	gain_desc = "You can now choose what specialization of vampire you want to evolve into."
 	base_cooldown = 2 SECONDS
 	action_icon_state = "select_class"
 
-/obj/effect/proc_holder/spell/vampire/self/specialize/cast(mob/user)
+/datum/action/cooldown/spell/vampire/self/specialize/cast(mob/user)
 	ui_interact(user)
 
-/obj/effect/proc_holder/spell/vampire/self/specialize/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.always_state)
+/datum/action/cooldown/spell/vampire/self/specialize/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.always_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
 		ui = new(user, src, ui_key, "SpecMenu", "Specialisation Menu", 1200, 600, master_ui, state)
 		ui.set_autoupdate(FALSE)
 		ui.open()
 
-/obj/effect/proc_holder/spell/vampire/self/specialize/ui_data(mob/user)
+/datum/action/cooldown/spell/vampire/self/specialize/ui_data(mob/user)
 	var/datum/antagonist/vampire/vamp = user.mind.has_antag_datum(/datum/antagonist/vampire)
 	var/list/data = list("subclasses" = vamp.subclass)
 	return data
 
-/obj/effect/proc_holder/spell/vampire/self/specialize/ui_act(action, list/params)
+/datum/action/cooldown/spell/vampire/self/specialize/ui_act(action, list/params)
 	if(..())
 		return
 	var/datum/antagonist/vampire/vamp = usr.mind.has_antag_datum(/datum/antagonist/vampire)
@@ -151,20 +156,20 @@
 	if(log_choice)
 		SSblackbox.record_feedback("nested tally", "vampire_subclasses", 1, list("[new_subclass.name]"))
 
-/obj/effect/proc_holder/spell/vampire/glare
+/datum/action/cooldown/spell/vampire/glare
 	name = "Glare"
 	desc = "Your eyes flash, stunning and silencing anyone infront of you. It has lesser effects for those around you."
 	action_icon_state = "vampire_glare"
 	base_cooldown = 30 SECONDS
 	stat_allowed = UNCONSCIOUS
 
-/obj/effect/proc_holder/spell/vampire/glare/create_new_targeting()
+/datum/action/cooldown/spell/vampire/glare/create_new_targeting()
 	var/datum/spell_targeting/aoe/T = new
 	T.allowed_type = /mob/living
 	T.range = 1
 	return T
 
-/obj/effect/proc_holder/spell/vampire/glare/create_new_cooldown()
+/datum/action/cooldown/spell/vampire/glare/create_new_cooldown()
 	var/datum/spell_cooldown/charges/C = new
 	C.max_charges = 2
 	C.recharge_duration = base_cooldown
@@ -178,11 +183,11 @@
 /// Full deviation. Flashed from directly behind or behind-left/behind-rack. Not flashed at all.
 #define DEVIATION_FULL 1
 
-/obj/effect/proc_holder/spell/vampire/glare/cast(list/targets, mob/living/user = usr)
+/datum/action/cooldown/spell/vampire/glare/cast(list/targets, mob/living/user = usr)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		if(istype(H.glasses, /obj/item/clothing/glasses/sunglasses/blindfold))
-			var/obj/item/clothing/glasses/sunglasses/blindfold/B = H.glasses
+		if(istype(H.glasses, /obj/item/clothing/glasses/blindfold))
+			var/obj/item/clothing/glasses/blindfold/B = H.glasses
 			if(B.tint)
 				to_chat(user, "<span class='warning'>You're blindfolded!</span>")
 				return
@@ -213,9 +218,8 @@
 			target.AdjustSilence(8 SECONDS)
 			target.flash_eyes(1, TRUE, TRUE)
 		to_chat(target, "<span class='warning'>You are blinded by [user]'s glare.</span>")
-		add_attack_logs(user, target, "(Vampire) Glared at")
 
-/obj/effect/proc_holder/spell/vampire/glare/proc/calculate_deviation(mob/victim, mob/attacker)
+/datum/action/cooldown/spell/vampire/glare/proc/calculate_deviation(mob/victim, mob/attacker)
 	// Are they on the same tile? We'll return partial deviation. This may be someone flashing while lying down
 	if(victim.loc == attacker.loc)
 		return DEVIATION_PARTIAL
@@ -258,7 +262,7 @@
 /datum/vampire_passive/full
 	gain_desc = "You have reached your full potential. You are no longer weak to the effects of anything holy and your vision has improved greatly."
 
-/obj/effect/proc_holder/spell/vampire/raise_vampires
+/datum/action/cooldown/spell/vampire/raise_vampires
 	name = "Raise Vampires"
 	desc = "Summons deadly vampires from bluespace."
 	school = "transmutation"
@@ -272,12 +276,12 @@
 	sound = 'sound/magic/wandodeath.ogg'
 	gain_desc = "You have gained the ability to Raise Vampires. This extremely powerful AOE ability affects all humans near you. Vampires/thralls are healed. Corpses are raised as vampires. Others are stunned, then brain damaged, then killed."
 
-/obj/effect/proc_holder/spell/vampire/raise_vampires/create_new_targeting()
+/datum/action/cooldown/spell/vampire/raise_vampires/create_new_targeting()
 	var/datum/spell_targeting/aoe/T = new
 	T.range = 3
 	return T
 
-/obj/effect/proc_holder/spell/vampire/raise_vampires/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/vampire/raise_vampires/cast(list/targets, mob/user = usr)
 	new /obj/effect/temp_visual/cult/sparks(user.loc)
 	var/turf/T = get_turf(user)
 	to_chat(user, "<span class='warning'>You call out within bluespace, summoning more vampiric spirits to aid you!</span>")
@@ -287,17 +291,17 @@
 		raise_vampire(user, H)
 
 
-/obj/effect/proc_holder/spell/vampire/raise_vampires/proc/raise_vampire(mob/M, mob/living/carbon/human/H)
+/datum/action/cooldown/spell/vampire/raise_vampires/proc/raise_vampire(mob/M, mob/living/carbon/human/H)
 	if(!istype(M) || !istype(H))
 		return
 	if(!H.mind)
-		visible_message("[H] looks to be too stupid to understand what is going on.")
+		user.visible_message("[H] looks to be too stupid to understand what is going on.")
 		return
 	if(H.dna && (NO_BLOOD in H.dna.species.species_traits) || H.dna.species.exotic_blood || !H.blood_volume)
-		visible_message("[H] looks unfazed!")
+		user.visible_message("[H] looks unfazed!")
 		return
-	if(H.mind.has_antag_datum(/datum/antagonist/vampire) || H.mind.special_role == SPECIAL_ROLE_VAMPIRE || H.mind.special_role == SPECIAL_ROLE_VAMPIRE_THRALL)
-		visible_message("<span class='notice'>[H] looks refreshed!</span>")
+	if(H.mind.has_antag_datum(/datum/antagonist/vampire) || H.mind.special_role == "Vampire" || H.mind.special_role == "Vampire Thrall")
+		user.visible_message("<span class='notice'>[H] looks refreshed!</span>")
 		H.adjustBruteLoss(-60)
 		H.adjustFireLoss(-60)
 		for(var/obj/item/organ/external/E in H.bodyparts)
@@ -308,10 +312,10 @@
 		return
 	if(H.stat != DEAD)
 		if(H.IsWeakened())
-			visible_message("<span class='warning'>[H] looks to be in pain!</span>")
+			user.visible_message("<span class='warning'>[H] looks to be in pain!</span>")
 			H.adjustBrainLoss(60)
 		else
-			visible_message("<span class='warning'>[H] looks to be stunned by the energy!</span>")
+			user.visible_message("<span class='warning'>[H] looks to be stunned by the energy!</span>")
 			H.Weaken(40 SECONDS)
 		return
 	for(var/obj/item/implant/mindshield/L in H)
@@ -320,18 +324,17 @@
 	for(var/obj/item/implant/traitor/T in H)
 		if(T && T.implanted)
 			qdel(T)
-	visible_message("<span class='warning'>[H] gets an eerie red glow in their eyes!</span>")
+	user.visible_message("<span class='warning'>[H] gets an eerie red glow in their eyes!</span>")
 	var/datum/objective/protect/protect_objective = new
 	protect_objective.owner = H.mind
 	protect_objective.target = M.mind
 	protect_objective.explanation_text = "Protect [M.real_name]."
 	H.mind.objectives += protect_objective
-	add_attack_logs(M, H, "Vampire-sired")
 	H.mind.make_vampire()
 	H.revive()
 	H.Weaken(40 SECONDS)
 
-/obj/effect/proc_holder/spell/turf_teleport/shadow_step
+/datum/action/cooldown/spell/turf_teleport/shadow_step
 	name = "Shadow Step (30)"
 	desc = "Teleport to a nearby dark region"
 	gain_desc = "You have gained the ability to shadowstep, which makes you disappear into nearby shadows at the cost of blood."
@@ -350,10 +353,10 @@
 
 	include_light_turfs = FALSE
 
-	sound1 = null
-	sound2 = null
+	var/sound1 = null
+	var/sound2 = null
 
-/obj/effect/proc_holder/spell/turf_teleport/shadow_step/create_new_handler()
+/datum/action/cooldown/spell/turf_teleport/shadow_step/create_new_handler()
 	var/datum/spell_handler/vampire/H = new
 	H.required_blood = 30
 	return H

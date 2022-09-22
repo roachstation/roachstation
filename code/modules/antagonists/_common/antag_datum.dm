@@ -9,6 +9,8 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/show_in_roundend = TRUE
 	///If false, the roundtype will still convert with this antag active
 	var/prevent_roundtype_conversion = TRUE
+	/// The target of the objective.
+	var/needs_target = TRUE
 	///Mind that owns this datum
 	var/datum/mind/owner
 	///Silent will prevent the gain/lose texts to show
@@ -23,6 +25,8 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/replace_banned = TRUE
 	///List of the objective datums that this role currently has, completing all objectives at round-end will cause this antagonist to greentext.
 	var/list/objectives = list()
+	/// A list of strings which contain [targets][/datum/objective/var/target] of the antagonist's objectives. Used to prevent duplicate objectives.
+	var/list/assigned_targets = list()
 	///String dialogue that is added to the player's in-round notes and memories regarding specifics of that antagonist, eg. the nuke code for nuke ops, or your unlock code for traitors.
 	var/antag_memory = ""
 	///typepath of moodlet that the mob will gain when granted this antagonist type.
@@ -33,6 +37,8 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/hijack_speed = 0
 	///The antag hud's icon file
 	var/hud_icon = 'icons/mob/huds/antag_hud.dmi'
+	/// Holds the type of antagonist hud this datum will get, i.e. `ANTAG_HUD_TRAITOR`, `ANTAG_HUD_VAMPIRE`, etc.
+	var/antag_hud_type
 	///Name of the antag hud we provide to this mob.
 	var/antag_hud_name
 	/// If set to true, the antag will not be added to the living antag list.
@@ -104,7 +110,135 @@ GLOBAL_LIST_EMPTY(antagonists)
 
 //This handles the application of antag huds/special abilities
 /datum/antagonist/proc/apply_innate_effects(mob/living/mob_override)
-	return
+	SHOULD_CALL_PARENT(TRUE)
+	var/mob/living/L = mob_override || owner.current
+	if(antag_hud_type && antag_hud_name)
+		add_antag_hud(L)
+	// If `mob_override` exists it means we're only transferring this datum, we don't need to show the clown any text.
+	handle_clown_mutation(L, mob_override ? null : "You are no longer clumsy.", TRUE)
+	return L
+
+/**
+ * Adds this datum's antag hud to `antag_mob`.
+ *
+ * Arguments:
+ * * antag_mob - the mob to add the antag hud to.
+ */
+/datum/antagonist/proc/add_antag_hud(mob/living/antag_mob)
+	var/datum/atom_hud/antag/hud = GLOB.huds[antag_hud_type]
+	hud.join_hud(antag_mob)
+	set_antag_hud(antag_mob, antag_hud_name)
+
+/**
+ * Removes this datum's antag hud from `antag_mob`.
+ *
+ * Arguments:
+ * * antag_mob - the mob to remove the antag hud from.
+ */
+/datum/antagonist/proc/remove_antag_hud(mob/living/antag_mob)
+	var/datum/atom_hud/antag/hud = GLOB.huds[antag_hud_type]
+	hud.leave_hud(antag_mob)
+	set_antag_hud(antag_mob, null)
+
+/**
+ * Create and add an objective of the given type.
+ *
+ * If the given objective type needs a target, it will try to find a target which isn't already the target of different objective for this antag.
+ * If one cannot be found, it tries one more time. If one still cannot be found, it will be added as a "Free Objective" without a target.
+ *
+ * Arguments:
+ * * objective_type - A type path of an objective, for example: /datum/objective/steal
+ * * explanation_text - the explanation text that will be passed into the objective's `New()` proc
+ * * mob/target_override - a target for the objective
+ */
+/datum/antagonist/proc/add_objective(objective_type, explanation_text = "", mob/target_override = null)
+	var/datum/objective/O = new objective_type(explanation_text)
+	O.owner = owner
+
+	if(target_override)
+		O.target = target_override
+		objectives += O
+		return
+
+	if(!O.needs_target)
+		objectives += O
+		return
+
+	O.find_target()
+	var/duplicate = FALSE
+
+	// Steal objectives need snowflake handling here unfortunately.
+	if(istype(O, /datum/objective/steal))
+		var/datum/objective/steal/S = O
+		// Check if it's a duplicate.
+		if("[S.steal_target]" in assigned_targets)
+			S.find_target() // Try again.
+			if("[S.steal_target]" in assigned_targets)
+				S.steal_target = null
+				S.explanation_text = "Free Objective" // Still a duplicate, so just make it a free objective.
+				duplicate = TRUE
+		if(S.steal_target && !duplicate)
+			assigned_targets += "[S.steal_target]"
+	else
+		if("[O.target]" in assigned_targets)
+			O.find_target()
+			if("[O.target]" in assigned_targets)
+				O.target = null
+				O.explanation_text = "Free Objective"
+				duplicate = TRUE
+		if(O.target && !duplicate)
+			assigned_targets += "[O.target]"
+
+	objectives += O
+	return O
+
+/**
+ * Announces all objectives of this datum, and only this datum.
+ */
+/datum/antagonist/proc/announce_objectives()
+	if(!length(objectives))
+		return FALSE
+	to_chat(owner.current, "<span class='notice'>Your current objectives:</span>")
+	var/objective_num = 1
+	for(var/objective in objectives)
+		var/datum/objective/O = objective
+		to_chat(owner.current, "<span><B>Objective #[objective_num++]</B>: [O.explanation_text]</span><br>")
+	return TRUE
+
+/**
+ * Handles adding and removing the clumsy mutation from clown antags.
+ *
+ * Arguments:
+ * * clown - the mob in which to add or remove clumsy from.
+ * * message - the chat message to display to them the clown mob
+ * * granting_datum - TRUE if the datum is being applied to the clown mob.
+ */
+/datum/antagonist/proc/handle_clown_mutation(mob/living/carbon/human/clown, message, granting_datum = FALSE)
+	if(!istype(clown) || owner.assigned_role != "Clown")
+		return FALSE
+
+	// Remove clumsy and give them an action to toggle it on and off.
+	if(granting_datum)
+		clown.dna.SetSEState(GLOB.clumsyblock, FALSE)
+		singlemutcheck(clown, GLOB.clumsyblock, 1)
+		// Don't give them another action if they already have one.
+		if(!(locate(/datum/action/innate/toggle_clumsy) in clown.actions))
+			var/datum/action/innate/toggle_clumsy/A = new
+			A.Grant(clown)
+	// Give them back the clumsy gene and remove their toggle action, but ONLY if they don't have any other antag datums.
+	else if(LAZYLEN(owner.antag_datums) <= 1)
+		clown.dna.SetSEState(GLOB.clumsyblock, TRUE)
+		singlemutcheck(clown, GLOB.clumsyblock, 1)
+		if(locate(/datum/action/innate/toggle_clumsy) in clown.actions)
+			var/datum/action/innate/toggle_clumsy/A = locate() in clown.actions
+			A.Remove(clown)
+	else
+		return FALSE
+
+	if(!silent && message)
+		to_chat(clown, "<span class='boldnotice'>[message]</span>")
+	return TRUE
+
 
 //This handles the removal of antag huds/special abilities
 /datum/antagonist/proc/remove_innate_effects(mob/living/mob_override)
@@ -166,6 +300,23 @@ GLOBAL_LIST_EMPTY(antagonists)
 		owner.current.add_to_current_living_antags()
 
 	SEND_SIGNAL(owner, COMSIG_ANTAGONIST_GAINED, src)
+
+/**
+ * Re-sets the antag hud and `special_role` of the owner to that of the previous antag datum they had before this one was added.
+ *
+ * For example, if the owner has a traitor datum and a vampire datum, both at index 1 and 2 respectively,
+ * After the vampire datum gets removed, it sets the owner's antag hud/role to whatever is set for traitor datum.
+ */
+/datum/antagonist/proc/restore_last_hud_and_role()
+	if(!LAZYLEN(owner.antag_datums))
+		// If they only had 1 antag datum, no need to restore anything. `remove_innate_effects()` will handle the removal of their hud.
+		owner.special_role = null
+		return FALSE
+	var/datum/antagonist/A = owner.antag_datums[LAZYLEN(owner.antag_datums)]
+	ASSERT(A)
+	A.add_antag_hud(owner.current) // Restore the hud of the previous antagonist datum.
+	owner.special_role = A.special_role
+
 
 /**
  * Proc that checks the sent mob aganst the banlistfor this antagonist.

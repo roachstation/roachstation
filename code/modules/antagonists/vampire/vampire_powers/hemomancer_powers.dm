@@ -1,4 +1,4 @@
-/obj/effect/proc_holder/spell/vampire/self/vamp_claws
+datum/action/cooldown/spell/vampire/self/vamp_claws
 	name = "Vampiric Claws (30)"
 	desc = "You channel blood magics to forge deadly vampiric claws that leech blood and strike rapidly. Cannot be used if you are holding something that cannot be dropped."
 	gain_desc = "You have gained the ability to forge your hands into vampiric claws."
@@ -6,7 +6,7 @@
 	required_blood = 30
 	action_icon_state = "vampire_claws"
 
-/obj/effect/proc_holder/spell/vampire/self/vamp_claws/cast(mob/user)
+datum/action/cooldown/spell/vampire/self/vamp_claws/cast(mob/user)
 	if(user.l_hand || user.r_hand)
 		to_chat(user, "<span class='notice'>You drop what was in your hands as large blades spring from your fingers!</span>")
 		user.drop_l_hand()
@@ -17,7 +17,7 @@
 	user.put_in_hands(claws)
 
 
-/obj/effect/proc_holder/spell/vampire/self/vamp_claws/can_cast(mob/user, charge_check, show_message)
+datum/action/cooldown/spell/vampire/self/vamp_claws/can_cast(mob/user, charge_check, show_message)
 	var/mob/living/L = user
 	if(L.canUnEquip(L.l_hand) && L.canUnEquip(L.r_hand))
 		return ..()
@@ -88,7 +88,7 @@
 	to_chat(user, "<span class='notice'>You dispel your claws!</span>")
 	qdel(src)
 
-/obj/effect/proc_holder/spell/vampire/blood_tendrils
+datum/action/cooldown/spell/vampire/blood_tendrils
 	name = "Blood Tendrils (10)"
 	desc = "You summon blood tendrils from bluespace after a delay to ensnare people in an area, slowing them down."
 	gain_desc = "You have gained the ability to summon blood tendrils to slow people down in an area that you target."
@@ -102,13 +102,13 @@
 	selection_activated_message = "<span class='notice'>You channel blood magics to weaken the bluespace veil. <B>Left-click to cast at a target area!</B></span>"
 	selection_deactivated_message = "<span class='notice'>Your magics subside.</span>"
 
-/obj/effect/proc_holder/spell/vampire/blood_tendrils/create_new_targeting()
+datum/action/cooldown/spell/vampire/blood_tendrils/create_new_targeting()
 	var/datum/spell_targeting/click/T = new
 	T.allowed_type = /atom
 	T.try_auto_target = FALSE
 	return T
 
-/obj/effect/proc_holder/spell/vampire/blood_tendrils/cast(list/targets, mob/user)
+datum/action/cooldown/spell/vampire/blood_tendrils/cast(list/targets, mob/user)
 	var/turf/T = get_turf(targets[1]) // there should only ever be one entry in targets for this spell
 
 	for(var/turf/simulated/blood_turf in view(area_of_affect, T))
@@ -118,7 +118,7 @@
 
 	addtimer(CALLBACK(src, .proc/apply_slowdown, T, area_of_affect, 6 SECONDS, user), 0.5 SECONDS)
 
-/obj/effect/proc_holder/spell/vampire/blood_tendrils/proc/apply_slowdown(turf/T, distance, slowed_amount, mob/user)
+datum/action/cooldown/spell/vampire/blood_tendrils/proc/apply_slowdown(turf/T, distance, slowed_amount, mob/user)
 	for(var/mob/living/L in range(distance, T))
 		if(L.affects_vampire(user))
 			L.Slowed(slowed_amount)
@@ -133,7 +133,7 @@
 /obj/effect/temp_visual/blood_tendril/long
 	duration = 2 SECONDS
 
-/obj/effect/proc_holder/spell/ethereal_jaunt/blood_pool
+datum/action/cooldown/spell/ethereal_jaunt/blood_pool
 	name = "Sanguine Pool (50)"
 	desc = "You shift your form into a pool of blood, making you invulnerable and able to move through anything that's not a wall or space. You leave a trail of blood behind you when you do this."
 	gain_desc = "You have gained the ability to shift into a pool of blood, allowing you to evade pursuers with great mobility."
@@ -150,12 +150,12 @@
 	jaunt_in_time = 0
 	sound1 = 'sound/misc/enter_blood.ogg'
 
-/obj/effect/proc_holder/spell/ethereal_jaunt/blood_pool/create_new_handler()
+datum/action/cooldown/spell/ethereal_jaunt/blood_pool/create_new_handler()
 	var/datum/spell_handler/vampire/H = new
 	H.required_blood = 50
 	return H
 
-/obj/effect/proc_holder/spell/vampire/blood_eruption
+datum/action/cooldown/spell/vampire/blood_eruption
 	name = "Blood Eruption (100)"
 	desc = "Every pool of blood in 4 tiles erupts with a spike of living blood, damaging anyone stood on it."
 	gain_desc = "You have gained the ability to weaponise pools of blood to damage those stood on them."
@@ -163,13 +163,13 @@
 	base_cooldown = 200 SECONDS
 	action_icon_state = "blood_spikes"
 
-/obj/effect/proc_holder/spell/vampire/blood_eruption/create_new_targeting()
+datum/action/cooldown/spell/vampire/blood_eruption/create_new_targeting()
 	var/datum/spell_targeting/aoe/T = new
 	T.range = 4
 	T.allowed_type = /mob/living
 	return T
 
-/obj/effect/proc_holder/spell/vampire/blood_eruption/valid_target(mob/living/target, user)
+datum/action/cooldown/spell/vampire/blood_eruption/valid_target(mob/living/target, user)
 	var/turf/T = get_turf(target)
 	if(locate(/obj/effect/decal/cleanable/blood) in T)
 		if(target.affects_vampire(user) && !isLivingSSD(target))
@@ -177,7 +177,7 @@
 	return FALSE
 
 
-/obj/effect/proc_holder/spell/vampire/blood_eruption/cast(list/targets, mob/user)
+datum/action/cooldown/spell/vampire/blood_eruption/cast(list/targets, mob/user)
 	for(var/mob/living/L in targets)
 		var/turf/T = get_turf(L)
 		var/obj/effect/decal/cleanable/blood/B = locate(/obj/effect/decal/cleanable/blood) in T
@@ -192,7 +192,7 @@
 	icon_state = "bloodspike_white"
 	duration = 0.3 SECONDS
 
-/obj/effect/proc_holder/spell/vampire/self/blood_spill
+datum/action/cooldown/spell/vampire/self/blood_spill
 	name = "The Blood Bringers Rite"
 	desc = "When toggled, everyone around you begins to bleed profusely."
 	gain_desc = "You have gained the ability to rip the very life force out of people and absorb it, healing you."
@@ -200,7 +200,7 @@
 	action_icon_state = "blood_bringers_rite"
 	required_blood = 10
 
-/obj/effect/proc_holder/spell/vampire/self/blood_spill/cast(list/targets, mob/user)
+datum/action/cooldown/spell/vampire/self/blood_spill/cast(list/targets, mob/user)
 	var/datum/antagonist/vampire/V = user.mind.has_antag_datum(/datum/antagonist/vampire)
 	if(!V.get_ability(/datum/vampire_passive/blood_spill))
 		V.force_add_ability(/datum/vampire_passive/blood_spill)
