@@ -59,5 +59,6 @@ Implementation modules:
 version of any map saved in the index (`git add`ed) with the old version stored
 in Git when run.
 
-[Map Merger]: https://tgstation13.org/wiki/Map_Merger
+[Map Merger]: https://roachstation.github.io/wiki
+Map_Merger
 [Git hooks]: ../hooks/README.md
