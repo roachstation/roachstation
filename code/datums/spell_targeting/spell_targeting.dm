@@ -22,8 +22,6 @@
 	var/try_auto_target = FALSE
 	/// Whether or not the spell should use the turf of the user as starting point
 	var/use_turf_of_user = FALSE
-	/// If the spell should do an obstacle check from the user to the target. Windows, for example, will block the spell if this is true.
-	var/use_obstacle_check = FALSE
 
 /**
  * Called when choosing the targets for the parent spell
@@ -44,7 +42,7 @@
 /datum/spell_targeting/proc/attempt_auto_target(mob/user, obj/effect/proc_holder/spell/spell)
 	var/atom/target
 	for(var/atom/A in view_or_range(range, use_turf_of_user ? get_turf(user) : user, selection_type))
-		if(valid_target(A, user, spell, FALSE))
+		if(valid_target(A, user, spell))
 			if(target)
 				return FALSE // Two targets found. ABORT
 			target = A
@@ -75,31 +73,8 @@
  * * target - The one who is being considered as a target
  * * user - Who is casting the spell
  * * spell - The spell being cast
- * * check_if_in_range - If a view/range check has to be done to see if the target is valid
  */
-/datum/spell_targeting/proc/valid_target(target, user, obj/effect/proc_holder/spell/spell, check_if_in_range = TRUE)
+/datum/spell_targeting/proc/valid_target(target, user, obj/effect/proc_holder/spell/spell)
 	SHOULD_CALL_PARENT(TRUE)
 	return istype(target, allowed_type) && (include_user || target != user) && \
-		spell.valid_target(target, user) && (!check_if_in_range || (target in view_or_range(range, use_turf_of_user ? get_turf(user) : user, selection_type))) \
-		&& (!use_obstacle_check || obstacle_check(user, target))
-
-
-/**
- * Checks if the path from the source to the target is free.
- * Mobs won't block the path. But any dense object (other than tables) will.
- *
- * Arguments:
- * * source - Where is the spell effect coming from?
- * * target - Where is the spell effect going?
- */
-/datum/spell_targeting/proc/obstacle_check(atom/source, atom/target)
-	//Checks for obstacles from A to B
-	var/obj/dummy = new(source.loc)
-	dummy.pass_flags |= PASSTABLE
-	for(var/turf/turf as anything in getline(source, target))
-		for(var/atom/movable/AM in turf)
-			if(!AM.CanPass(dummy, turf, 1))
-				qdel(dummy)
-				return FALSE
-	qdel(dummy)
-	return TRUE
+		spell.valid_target(target, user) && (target in view_or_range(range, use_turf_of_user ? get_turf(user) : user, selection_type))
