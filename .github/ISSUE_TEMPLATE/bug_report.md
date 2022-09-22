@@ -6,7 +6,7 @@ about: Create a report to help reproduce and fix the issue
 ## Round ID:
 
 <!--- **INCLUDE THE ROUND ID**
-If you discovered this issue from playing roachstation hosted servers:
+If you discovered this issue from playing tgstation hosted servers:
 [Round ID]: # (It can be found in the Status panel or retrieved from https://sb.atlantaned.space/rounds ! The round id let's us look up valuable information and logs for the round the bug happened.)-->
 
 ## Testmerges:

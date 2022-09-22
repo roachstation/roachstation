@@ -90,7 +90,7 @@ Calls the global proc `/proc/[proc]` with `...` as its arguments.
 ### dm.world
 A reference to DM's `world`, in the form of datum userdata. This reference is always valid, since `world` always exists.
 
-Due to limitations inherent in the wrapper functions used on roachstation, `world:set_var` and `world:call_proc` will raise an error.
+Due to limitations inherent in the wrapper functions used on tgstation, `world:set_var` and `world:call_proc` will raise an error.
 
 ### dm.global_vars
 A reference to DM's `global`, in the form of datum userdata. Subject to the same limitations as `dm.world`
@@ -121,7 +121,7 @@ Yields the current thread, scheduling it to be resumed during the next fire of S
 ---
 
 ## The SS13 package
-The `SS13` package contains various helper functions that use code specific to roachstation.
+The `SS13` package contains various helper functions that use code specific to tgstation.
 
 ### SS13.state
 A reference to the state datum (`/datum/lua_state`) handling this Lua state.
