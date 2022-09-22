@@ -13,7 +13,7 @@
  * This will return a list of all the organs that are relevant to the zone that is passedin
  *
  * Arguments:
- * * zone [a BODY_ZONE_X define](https://github.com/tgstation/tgstation/blob/master/code/__DEFINES/combat.dm#L187-L200)
+ * * zone [a BODY_ZONE_X define](https://github.com/roachstation/roachstation/blob/master/code/__DEFINES/combat.dm#L187-L200)
  */
 /mob/proc/getorganszone(zone)
 	return
