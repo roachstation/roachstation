@@ -14,6 +14,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	custom_materials = list(/datum/material/iron=50)
 	drop_sound = 'sound/items/handling/crowbar_drop.ogg'
+	hitsound = 'sound/items/crowbar_hit.ogg'
 	pickup_sound = 'sound/items/handling/crowbar_pickup.ogg'
 
 	attack_verb_continuous = list("attacks", "bashes", "batters", "bludgeons", "whacks")
