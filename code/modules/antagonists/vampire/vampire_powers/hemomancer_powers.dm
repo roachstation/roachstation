@@ -237,7 +237,7 @@ datum/action/cooldown/spell/vampire/self/blood_spill/cast(list/targets, mob/user
 		H.adjustBruteLoss(2)
 		owner.heal_overall_damage(8, 2, TRUE)
 		owner.adjustStaminaLoss(-15)
-		owner.AdjustStunned(-2 SECONDS)
+		owner.AdjustStun(-2 SECONDS)
 		owner.AdjustWeakened(-2 SECONDS)
 		owner.AdjustKnockDown(-2 SECONDS)
 		if(drain_amount == 10)

@@ -86,6 +86,9 @@
 	/// Which targeting system is used. Set this in create_new_targeting
 	var/datum/spell_targeting/targeting
 
+	var/vampire_ability = FALSE
+	var/required_blood = 0
+	var/deduct_blood_on_cast = TRUE
 	var/gain_desc = null
 	var/base_cooldown = 10 SECONDS
 	var/action_icon = 'icons/mob/actions/actions.dmi'
@@ -302,7 +305,9 @@
  */
 /datum/action/cooldown/spell/proc/before_cast(atom/cast_on)
 	SHOULD_CALL_PARENT(TRUE)
-
+	if(vampire_ability)
+		if(!before_cast_vampire(targets))
+			return
 	var/sig_return = SEND_SIGNAL(src, COMSIG_SPELL_BEFORE_CAST, cast_on)
 	if(owner)
 		sig_return |= SEND_SIGNAL(owner, COMSIG_MOB_BEFORE_SPELL_CAST, src, cast_on)

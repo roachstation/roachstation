@@ -31,3 +31,5 @@
 
 #define VAMPIRE_TRAIT "vampire"
 #define TRAIT_GOTTAGONOTSOFAST	"gottagonotsofast"
+
+#define TRAIT_FORCE_DOORS 		"force_doors"

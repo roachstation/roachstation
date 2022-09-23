@@ -63,9 +63,9 @@ var/include_light_turfs = TRUE
 	var/mob/living/U = user
 
 	U.SetWeakened(0)
-	U.SetStunned(0)
-	U.SetKnockDown(0)
-	U.SetParalysis(0)
+	U.SetStun(0)
+	U.SetKnockdown(0)
+	U.SetParalyzed(0)
 	U.SetSleeping(0)
 	U.SetConfused(0)
 	U.adjustStaminaLoss(-100)
