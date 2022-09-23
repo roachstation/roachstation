@@ -36,9 +36,9 @@
 	if(!ishuman(user))
 		return
 	if(!firstpickup)
-		SEND_SOUND(user, sound('sound/halflife/hevsuit_pickup.ogg', volume = 50))
+		SEND_SOUND(user, sound('sound/halflife/hevsuit_pickup.ogg', volume = 30))
 	else
 		firstpickup = FALSE
-		SEND_SOUND(user, sound('sound/halflife/hevsuit_firstpickup.ogg', volume = 50))
-		SEND_SOUND(user, sound('sound/halflife/anomalous_materials.ogg', volume = 50))
+		SEND_SOUND(user, sound('sound/halflife/hevsuit_firstpickup.ogg', volume = 30))
+		SEND_SOUND(user, sound('sound/halflife/anomalous_materials.ogg', volume = 30))
 	return
