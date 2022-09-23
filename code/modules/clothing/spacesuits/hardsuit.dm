@@ -10,7 +10,14 @@
 	inhand_icon_state = "hev"
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
-	armor = list(MELEE = 30, BULLET = 60, LASER = 50, ENEGRY = 5, BOMB = 80, BIO = 100, RAD = 100, FIRE = 60, ACID = 60)
+	armor = list(MELEE = 30, BULLET = 60, LASER = 50, ENERGY = 5, BOMB = 80, BIO = 100, FIRE = 80, ACID = 70, WOUND = 0)
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	cold_protection = HEAD
+	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
+	heat_protection = HEAD
+	max_heat_protection_temperature = SPACE_HELM_MAX_TEMP_PROTECT
+	flash_protect = FLASH_PROTECTION_WELDER
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 
 /obj/item/clothing/suit/space/hardsuit/rd/hev
 	name = "HEV Suit"
@@ -27,7 +34,7 @@
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/gun/energy/wormhole_projector,
 	/obj/item/hand_tele, /obj/item/aicard)
-	armor = list(MELEE = 30, BULLET = 60, LASER = 50, ENERGY = 5, BOMB = 80, BIO = 100, RAD = 100, FIRE = 60, ACID = 60)
+	armor = list(MELEE = 30, BULLET = 60, LASER = 50, ENERGY = 5, BOMB = 80, BIO = 100, FIRE = 60, ACID = 60, WOUND = 0)
 	var/firstpickup = TRUE
 	slowdown = 0.2
 
