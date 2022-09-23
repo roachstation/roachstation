@@ -28,3 +28,8 @@
 	else if(isatom(target))
 		var/atom/the_atom2 = target
 		REMOVE_TRAIT(the_atom2,trait,source)
+
+#define VAMPIRE_TRAIT "vampire"
+#define TRAIT_GOTTAGONOTSOFAST	"gottagonotsofast"
+
+#define TRAIT_FORCE_DOORS 		"force_doors"

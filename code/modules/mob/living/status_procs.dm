@@ -60,6 +60,56 @@
 		S = apply_status_effect(/datum/status_effect/incapacitating/stun, amount)
 	return S
 
+/mob/living/proc/IsWeakened()
+	return has_status_effect(STATUS_EFFECT_WEAKENED)
+
+/mob/living/proc/AmountWeakened() //How many deciseconds remain in our Weakened status effect
+	var/datum/status_effect/incapacitating/weakened/P = IsWeakened(FALSE)
+	if(P)
+		return P.duration - world.time
+	return 0
+
+/mob/living/proc/Weaken(amount, ignore_canstun = FALSE) //Can't go below remaining duration
+	if(IS_STUN_IMMUNE(src, ignore_canstun))
+		return
+	if(absorb_stun(amount, ignore_canstun))
+		return
+	var/datum/status_effect/incapacitating/weakened/P = IsWeakened(FALSE)
+	if(P)
+		P.duration = max(world.time + amount, P.duration)
+	else if(amount > 0)
+		P = apply_status_effect(STATUS_EFFECT_WEAKENED, amount)
+	return P
+
+/mob/living/proc/SetWeakened(amount, ignore_canstun = FALSE) //Sets remaining duration
+	if(IS_STUN_IMMUNE(src, ignore_canstun))
+		return
+	var/datum/status_effect/incapacitating/weakened/P = IsWeakened(FALSE)
+	if(amount <= 0)
+		if(P)
+			qdel(P)
+	else
+		if(absorb_stun(amount, ignore_canstun))
+			return
+		if(P)
+			P.duration = world.time + amount
+		else
+			P = apply_status_effect(STATUS_EFFECT_WEAKENED, amount)
+	return P
+
+/mob/living/proc/AdjustWeakened(amount, ignore_canstun = FALSE) //Adds to remaining duration
+	if(IS_STUN_IMMUNE(src, ignore_canstun))
+		return
+	if(absorb_stun(amount, ignore_canstun))
+		return
+	var/datum/status_effect/incapacitating/weakened/P = IsWeakened(FALSE)
+	if(P)
+		P.duration += amount
+	else if(amount > 0)
+		P = apply_status_effect(STATUS_EFFECT_WEAKENED, amount)
+	return P
+
+
 /* KNOCKDOWN */
 /mob/living/proc/IsKnockdown() //If we're knocked down
 	return has_status_effect(/datum/status_effect/incapacitating/knockdown)
@@ -508,6 +558,36 @@
 		if(quirk.type == quirktype)
 			return TRUE
 	return FALSE
+
+
+/**
+ * Returns current amount of [confusion][/datum/status_effect/decaying/confusion], 0 if none.
+ */
+/mob/living/proc/get_confusion()
+	RETURN_STATUS_EFFECT_STRENGTH(STATUS_EFFECT_CONFUSION)
+
+/**
+ * Sets [confusion][/datum/status_effect/decaying/confusion] if it's higher than zero.
+ */
+/mob/living/proc/SetConfused(amount)
+	SET_STATUS_EFFECT_STRENGTH(STATUS_EFFECT_CONFUSION, amount)
+
+/**
+ * Sets [confusion][/datum/status_effect/decaying/confusion] if it's higher than current.
+ */
+/mob/living/proc/Confused(amount)
+	SetConfused(max(get_confusion(), amount))
+
+/**
+ * Sets [confusion][/datum/status_effect/decaying/confusion] to current amount + given, clamped between lower and higher bounds.
+ *
+ * Arguments:
+ * * amount - Amount to add. Can be negative to reduce duration.
+ * * bound_lower - Minimum bound to set at least to. Defaults to 0.
+ * * bound_upper - Maximum bound to set up to. Defaults to infinity.
+ */
+/mob/living/proc/AdjustConfused(amount, bound_lower = 0, bound_upper = INFINITY)
+	SetConfused(directional_bounded_sum(get_confusion(), amount, bound_lower, bound_upper))
 
 /* TRAIT PROCS */
 /mob/living/proc/cure_blind(source)

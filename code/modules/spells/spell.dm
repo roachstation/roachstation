@@ -83,6 +83,50 @@
 	/// The amount of smoke to create on cast. This is a range, so a value of 5 will create enough smoke to cover everything within 5 steps.
 	var/smoke_amt = 0
 
+	/// Which targeting system is used. Set this in create_new_targeting
+	var/datum/spell_targeting/targeting
+
+	var/vampire_ability = FALSE
+	var/required_blood = 0
+	var/deduct_blood_on_cast = TRUE
+	var/gain_desc = null
+	var/base_cooldown = 10 SECONDS
+	var/action_icon = 'icons/mob/actions/actions.dmi'
+	var/action_icon_state = "spell_default"
+	var/action_background_icon_state = "bg_spell"
+	var/ghost = FALSE // Skip life check.
+	var/clothes_req = TRUE //see if it requires clothes
+	var/human_req = FALSE //spell can only be cast by humans
+	var/nonabstract_req = FALSE //spell can only be cast by mobs that are physical entities
+	var/stat_allowed = CONSCIOUS //see if it requires being conscious/alive, need to set to 1 for ghostpells
+	var/level_max = 4 //The max possible level_max is 4
+	var/cooldown_min = 0 //This defines what spell quickened four timeshas as a cooldown. Make sure to set this for every spell
+	var/starts_charged = TRUE
+
+	var/centcom_cancast = TRUE //Whether or not the spell should be allowed on the admin zlevel
+	/// Whether or not the spell functions in a holy place
+	var/datum/spell_cooldown/cooldown_handler
+	var/datum/spell_handler/custom_handler
+
+/datum/action/cooldown/spell/proc/create_new_targeting()
+	RETURN_TYPE(/datum/spell_targeting)
+	return
+
+/datum/action/cooldown/spell/summonmob/create_new_targeting()
+	return new /datum/spell_targeting/self
+
+/datum/action/cooldown/spell/proc/create_new_cooldown()
+	RETURN_TYPE(/datum/spell_cooldown)
+	var/datum/spell_cooldown/S = new
+	S.recharge_duration = base_cooldown
+	S.starts_off_cooldown = starts_charged
+	return S
+
+/datum/action/cooldown/spell/proc/revert_cast(mob/user = usr) //resets recharge or readds a charge
+	cooldown_handler.revert_cast()
+	custom_handler?.revert_cast(user, src)
+
+
 /datum/action/cooldown/spell/Grant(mob/grant_to)
 	// If our spell is mind-bound, we only wanna grant it to our mind
 	if(istype(target, /datum/mind))
@@ -261,7 +305,9 @@
  */
 /datum/action/cooldown/spell/proc/before_cast(atom/cast_on)
 	SHOULD_CALL_PARENT(TRUE)
-
+	if(vampire_ability)
+		if(!before_cast_vampire(targets))
+			return
 	var/sig_return = SEND_SIGNAL(src, COMSIG_SPELL_BEFORE_CAST, cast_on)
 	if(owner)
 		sig_return |= SEND_SIGNAL(owner, COMSIG_MOB_BEFORE_SPELL_CAST, src, cast_on)

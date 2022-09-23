@@ -105,6 +105,7 @@
 	var/list/failed_special_equipment
 	/// A list to keep track of which books a person has read (to prevent people from reading the same book again and again for positive mood events)
 	var/list/book_titles_read
+	var/list/spell_list = list()
 
 /datum/mind/New(_key)
 	key = _key

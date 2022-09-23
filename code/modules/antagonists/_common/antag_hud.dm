@@ -1,6 +1,24 @@
 /// All active /datum/atom_hud/alternate_appearance/basic/has_antagonist instances
 GLOBAL_LIST_EMPTY_TYPED(has_antagonist_huds, /datum/atom_hud/alternate_appearance/basic/has_antagonist)
 
+/datum/atom_hud/antag
+	hud_icons = list(SPECIALROLE_HUD)
+	var/self_visible = TRUE
+
+/datum/atom_hud/antag/hidden
+	self_visible = FALSE
+
+
+/proc/set_antag_hud(mob/M, new_icon_state)
+	if(!istype(M))
+		CRASH("set_antag_hud(): [M] ([M.type]) is not a mob!")
+	var/image/holder = M.hud_list[SPECIALROLE_HUD]
+	if(holder)
+		holder.icon_state = new_icon_state
+	if(M.mind || new_icon_state) //in mindless mobs, only null is acceptable, otherwise we're antagging a mindless mob, meaning we should runtime
+		M.mind.antag_hud_icon_state = new_icon_state
+
+
 /// An alternate appearance that will only show if you have the antag datum
 /datum/atom_hud/alternate_appearance/basic/has_antagonist
 	var/antag_datum_type

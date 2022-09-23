@@ -4,6 +4,7 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 	var/datum/mind/owner //The primary owner of the objective. !!SOMEWHAT DEPRECATED!! Prefer using 'team' for new code.
 	var/datum/team/team //An alternative to 'owner': a team. Use this when writing new code.
 	var/name = "generic objective" //Name for admin prompts
+	var/needs_target = TRUE	/// The target of the objective.
 	var/explanation_text = "Nothing" //What that person is supposed to do.
 	///name used in printing this objective (Objective #1)
 	var/objective_name = "Objective"
@@ -211,6 +212,25 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 	martyr_compatible = 1
 	var/target_role_type = FALSE
 
+/datum/objective/blood
+	needs_target = FALSE
+
+/datum/objective/blood/New()
+	gen_amount_goal()
+	. = ..()
+
+/datum/objective/blood/proc/gen_amount_goal(low = 150, high = 400)
+	target_amount = rand(low,high)
+	target_amount = round(round(target_amount/5)*5)
+	explanation_text = "Accumulate at least [target_amount] total units of blood."
+	return target_amount
+
+/datum/objective/blood/check_completion()
+	var/datum/antagonist/vampire/V = owner.has_antag_datum(/datum/antagonist/vampire)
+	if(V.bloodtotal >= target_amount)
+		return TRUE
+	else
+		return FALSE
 
 /datum/objective/mutiny/check_completion()
 	if(!target || !considered_alive(target) || considered_afk(target) || considered_exiled(target))

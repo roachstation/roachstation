@@ -886,6 +886,19 @@
 		ghost.notify_cloning(message, sound, source, flashwindow)
 		return ghost
 
+
+/mob/proc/AddSpell(datum/action/cooldown/spell/S)
+	mob_spell_list += S
+	S.action.Grant(src)
+
+/mob/proc/RemoveSpell(datum/action/cooldown/spell/spell) //To remove a specific spell from a mind
+	if(!spell)
+		return
+	for(var/datum/action/cooldown/spell/S in spell_list)
+		if(istype(S, spell))
+			qdel(S)
+			spell_list -= S
+
 /**
  * Checks to see if the mob can cast normal magic spells.
  *
