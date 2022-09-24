@@ -60,6 +60,7 @@
 								"Exosuit Equipment",
 								"Exosuit Ammunition",
 								"Cyborg Upgrade Modules",
+								"IPC Components",
 								"Cybernetics",
 								"Implants",
 								"Control Interfaces",
