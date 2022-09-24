@@ -308,6 +308,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Character
 	READ_FILE(S["randomise"],  randomise)
 
+	READ_FILE(S["feature_ipc_screen"], features["ipc_screen"])
+	READ_FILE(S["feature_ipc_antenna"], features["ipc_antenna"])
+	READ_FILE(S["feature_ipc_chassis"], features["ipc_chassis"])
+	features["ipc_screen"] = sanitize_inlist(features["ipc_screen"], GLOB.ipc_screens_list)
+	features["ipc_antenna"]	= sanitize_inlist(features["ipc_antenna"], GLOB.ipc_antennas_list)
+	features["ipc_chassis"]	= sanitize_inlist(features["ipc_chassis"], GLOB.ipc_chassis_list)
+
 	//Load prefs
 	READ_FILE(S["job_preferences"], job_preferences)
 
@@ -365,6 +372,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	//Character
 	WRITE_FILE(S["randomise"] , randomise)
+	WRITE_FILE(S["feature_ipc_screen"], features["ipc_screen"])
+	WRITE_FILE(S["feature_ipc_antenna"], features["ipc_antenna"])
+	WRITE_FILE(S["feature_ipc_screen"]			, features["ipc_screen"])
+	WRITE_FILE(S["feature_ipc_antenna"]			, features["ipc_antenna"])
+	WRITE_FILE(S["feature_ipc_chassis"]			, features["ipc_chassis"])
 
 	//Write prefs
 	WRITE_FILE(S["job_preferences"] , job_preferences)
