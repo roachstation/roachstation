@@ -99,6 +99,8 @@
 #define NOAPPENDIX 23
 
 #define REVIVESBYHEALING 24 // Will revive on heal when healing and total HP > 0.
+#define NOHUSK			25 // Can't be husked.
+#define NOMOUTH			26
 
 //organ slots
 #define ORGAN_SLOT_ADAMANTINE_RESONATOR "adamantine_resonator"
