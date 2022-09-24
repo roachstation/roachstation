@@ -733,6 +733,12 @@ GLOBAL_LIST_EMPTY(features_by_species)
 					accessory = GLOB.body_markings_list[source.dna.features["body_markings"]]
 				if("legs")
 					accessory = GLOB.legs_list[source.dna.features["legs"]]
+				if("ipc_screen")
+					accessory = GLOB.ipc_screens_list[source.dna.features["ipc_screen"]]
+				if("ipc_antenna")
+					accessory = GLOB.ipc_antennas_list[source.dna.features["ipc_antenna"]]
+				if("ipc_chassis")
+					accessory  = GLOB.ipc_chassis_list[source.dna.features["ipc_chassis"]]
 				if("caps")
 					accessory = GLOB.caps_list[source.dna.features["caps"]]
 
