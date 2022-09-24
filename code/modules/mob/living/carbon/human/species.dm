@@ -19,6 +19,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/name
 	/// The formatting of the name of the species in plural context. Defaults to "[name]\s" if unset.
 	/// Ex "[Plasmamen] are weak", "[Mothmen] are strong", "[Lizardpeople] don't like", "[Golems] hate"
+	var/bodyflag = FLAG_HUMAN //Species flags currently used for species restriction on items
 	var/plural_form
 
 	///Whether or not the race has sexual characteristics (biological genders). At the moment this is only FALSE for skeletons and shadows
@@ -49,7 +50,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/hair_color
 	///The alpha used by the hair. 255 is completely solid, 0 is invisible.
 	var/hair_alpha = 255
-
+	var/speak_no_tongue = TRUE
 	///Examine text when the person has brute damage.
 	var/brute_damage_desc = DEFAULT_BRUTE_EXAMINE_TEXT
 	///Examine text when the person has burn damage.
@@ -84,6 +85,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/say_mod = "says"
 	///What languages this species can understand and say. Use a [language holder datum][/datum/language_holder] in this var.
 	var/species_language_holder = /datum/language_holder
+	var/list/default_features = list("body_size" = "Normal") // Default mutant bodyparts for this species. Don't forget to set one for every mutant bodypart you allow this species to have.
 	/**
 	  * Visible CURRENT bodyparts that are unique to a species.
 	  * DO NOT USE THIS AS A LIST OF ALL POSSIBLE BODYPARTS AS IT WILL FUCK
@@ -105,6 +107,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg,
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest,
 	)
+	var/reagent_tag = PROCESS_ORGANIC //Used for metabolizing reagents. We're going to assume you're a meatbag unless you say otherwise.
 
 	///List of external organs to generate like horns, frills, wings, etc. list(typepath of organ = "Round Beautiful BDSM Snout"). Still WIP
 	var/list/external_organs = list()
@@ -113,6 +116,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/speedmod = 0
 	///Percentage modifier for overall defense of the race, or less defense, if it's negative.
 	var/armor = 0
+	var/clonemod = 1
 	///multiplier for brute damage
 	var/brutemod = 1
 	///multiplier for burn damage
@@ -123,6 +127,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/heatmod = 1
 	///multiplier for stun durations
 	var/stunmod = 1
+	var/staminamod = 1
 	///multiplier for money paid at payday
 	var/payday_modifier = 1
 	///Type of damage attack does. Ethereals attack with burn damage for example.
@@ -472,6 +477,10 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			else //Entries in the list should only ever be items or null, so if it's not an item, we can assume it's an empty hand
 				INVOKE_ASYNC(C, /mob/proc/put_in_hands, new mutanthands)
 
+	// if(NOMOUTH in species_traits)
+	// 	for(var/obj/item/bodypart/head/head in C.bodyparts)
+	// 		head.mouth = FALSE
+
 	if(ishuman(C))
 		var/mob/living/carbon/human/human = C
 		for(var/obj/item/organ/external/organ_path as anything in external_organs)
@@ -521,6 +530,10 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	SHOULD_CALL_PARENT(TRUE)
 	if(C.dna.species.exotic_bloodtype)
 		C.dna.blood_type = random_blood_type()
+	// if(NOMOUTH in species_traits)
+	// 	for(var/obj/item/bodypart/head/head in C.bodyparts)
+	// 		head.mouth = TRUE
+
 	for(var/X in inherent_traits)
 		REMOVE_TRAIT(C, X, SPECIES_TRAIT)
 	for(var/obj/item/organ/external/organ as anything in C.external_organs)
@@ -680,6 +693,8 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
 	var/list/standing = list()
 
+	var/obj/item/bodypart/head/HD = source.get_bodypart(BODY_ZONE_HEAD)
+
 	source.remove_overlay(BODY_BEHIND_LAYER)
 	source.remove_overlay(BODY_ADJ_LAYER)
 	source.remove_overlay(BODY_FRONT_LAYER)
@@ -694,6 +709,13 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		if(!source.dna.features["ears"] || source.dna.features["ears"] == "None" || source.head && (source.head.flags_inv & HIDEHAIR) || (source.wear_mask && (source.wear_mask.flags_inv & HIDEHAIR)) || !noggin || !IS_ORGANIC_LIMB(noggin))
 			bodyparts_to_add -= "ears"
 
+	if("ipc_screen" in mutant_bodyparts)
+		if(!source.dna.features["ipc_screen"] || source.dna.features["ipc_screen"] == "None" || (source.wear_mask && (source.wear_mask.flags_inv & HIDEEYES)) || !HD)
+			bodyparts_to_add -= "ipc_screen"
+
+	if("ipc_antenna" in mutant_bodyparts)
+		if(!source.dna.features["ipc_antenna"] || source.dna.features["ipc_antenna"] == "None" || source.head && (source.head.flags_inv & HIDEHAIR) || (source.wear_mask && (source.wear_mask.flags_inv & HIDEHAIR)) || !HD)
+			bodyparts_to_add -= "ipc_antenna"
 	if(!bodyparts_to_add)
 		return
 
@@ -2232,3 +2254,8 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			new_part.replace_limb(target, TRUE)
 			new_part.update_limb(is_creating = TRUE)
 			qdel(old_part)
+
+/datum/species/proc/get_harm_descriptors()
+	return
+/datum/species/proc/spec_revival(mob/living/carbon/human/H)
+	return

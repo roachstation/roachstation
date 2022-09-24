@@ -6,14 +6,14 @@
 	species_traits = list(NOTRANSSTING,NOEYESPRITES,NO_DNA_COPY,NOZOMBIE,MUTCOLORS,REVIVESBYHEALING,NOHUSK,NOMOUTH, MUTCOLORS)
 	inherent_traits = list(TRAIT_RESISTCOLD,TRAIT_NOBREATH,TRAIT_RADIMMUNE,TRAIT_LIMBATTACHMENT,TRAIT_EASYDISMEMBER,TRAIT_POWERHUNGRY,TRAIT_XENO_IMMUNE, TRAIT_TOXIMMUNE)
 	inherent_biotypes = list(MOB_ROBOTIC, MOB_HUMANOID)
-	mutant_brain = /obj/item/organ/brain/positron
-	mutanteyes = /obj/item/organ/eyes/robotic
-	mutanttongue = /obj/item/organ/tongue/robot
-	mutantliver = /obj/item/organ/liver/cybernetic/upgraded/ipc
-	mutantstomach = /obj/item/organ/stomach/battery/ipc
-	mutantears = /obj/item/organ/ears/robot
-	mutant_heart = /obj/item/organ/heart/cybernetic/ipc
-	mutant_organs = list(/obj/item/organ/cyberimp/arm/power_cord)
+	mutantbrain = /obj/item/organ/internal/brain/positron
+	mutanteyes = /obj/item/organ/internal/eyes/robotic
+	mutanttongue = /obj/item/organ/internal/tongue/robot
+	mutantliver = /obj/item/organ/internal/liver/cybernetic/tier3/ipc
+	mutantstomach = /obj/item/organ/internal/stomach/battery/ipc
+	mutantears = /obj/item/organ/internal/ears/robot
+	mutantheart = /obj/item/organ/internal/heart/cybernetic/ipc
+	mutant_organs = list(/obj/item/organ/internal/cyberimp/arm/power_cord)
 	mutant_bodyparts = list("ipc_screen", "ipc_antenna", "ipc_chassis")
 	default_features = list("mcolor" = "#7D7D7D", "ipc_screen" = "Static", "ipc_antenna" = "None", "ipc_chassis" = "Morpheus Cyberkinetics(Greyscale)")
 	meat = /obj/item/stack/sheet/plasteel{amount = 5}
@@ -28,22 +28,22 @@
 	clonemod = 0
 	staminamod = 0.8
 	siemens_coeff = 1.5
-	blood_color = "#000000"
 	reagent_tag = PROCESS_SYNTHETIC
-	species_gibs = GIB_TYPE_ROBOTIC
+	bodytype = BODYTYPE_ROBOTIC
 	attack_sound = 'sound/items/trayhit1.ogg'
-	allow_numbers_in_name = TRUE
-	deathsound = "sound/voice/borg_deathsound.ogg"
+	death_sound = "sound/voice/borg_deathsound.ogg"
 	changesource_flags = MIRROR_BADMIN | WABBAJACK
 	species_language_holder = /datum/language_holder/synthetic
 	special_step_sounds = list('sound/effects/servostep.ogg')
 
-	species_chest = /obj/item/bodypart/chest/ipc
-	species_head = /obj/item/bodypart/head/ipc
-	species_l_arm = /obj/item/bodypart/l_arm/ipc
-	species_r_arm = /obj/item/bodypart/r_arm/ipc
-	species_l_leg = /obj/item/bodypart/l_leg/ipc
-	species_r_leg = /obj/item/bodypart/r_leg/ipc
+	var/list/bodyparts = list(
+		/obj/item/bodypart/chest/ipc,
+		/obj/item/bodypart/head/ipc,
+		/obj/item/bodypart/l_arm/ipc,
+		/obj/item/bodypart/r_arm/ipc,
+		/obj/item/bodypart/r_leg/ipc,
+		/obj/item/bodypart/l_leg/ipc,
+		)
 
 	var/saved_screen //for saving the screen when they die
 	var/datum/action/innate/change_screen/change_screen
@@ -59,11 +59,11 @@
 
 /datum/species/ipc/on_species_gain(mob/living/carbon/C)
 	. = ..()
-	var/obj/item/organ/appendix/A = C.getorganslot("appendix") //See below.
+	var/obj/item/organ/internal/appendix/A = C.getorganslot("appendix") //See below.
 	if(A)
 		A.Remove(C)
 		QDEL_NULL(A)
-	var/obj/item/organ/lungs/L = C.getorganslot("lungs") //Hacky and bad. Will be rewritten entirely in KapuCarbons anyway.
+	var/obj/item/organ/internal/lungs/L = C.getorganslot("lungs") //Hacky and bad. Will be rewritten entirely in KapuCarbons anyway.
 	if(L)
 		L.Remove(C)
 		QDEL_NULL(L)
@@ -116,7 +116,8 @@
 		return
 	var/mob/living/carbon/human/H = owner
 	H.dna.features["ipc_screen"] = screen_choice
-	H.eye_color = sanitize_hexcolor(color_choice)
+	H.eye_color_left = sanitize_hexcolor(color_choice)
+	H.eye_color_right = sanitize_hexcolor(color_choice)
 	H.update_body()
 
 /obj/item/apc_powercord
@@ -130,7 +131,7 @@
 		return ..()
 	user.changeNext_move(CLICK_CD_MELEE)
 	var/mob/living/carbon/human/H = user
-	var/obj/item/organ/stomach/battery/battery = H.getorganslot(ORGAN_SLOT_STOMACH)
+	var/obj/item/organ/internal/stomach/battery/battery = H.getorganslot(ORGAN_SLOT_STOMACH)
 	if(!battery)
 		to_chat(H, "<span class='warning'>You try to siphon energy from \the [target], but your power cell is gone!</span>")
 		return
@@ -150,7 +151,7 @@
 
 	if(isethereal(target))
 		var/mob/living/carbon/human/target_ethereal = target
-		var/obj/item/organ/stomach/battery/target_battery = target_ethereal.getorganslot(ORGAN_SLOT_STOMACH)
+		var/obj/item/organ/internal/stomach/battery/target_battery = target_ethereal.getorganslot(ORGAN_SLOT_STOMACH)
 		if(target_ethereal.nutrition > 0 && target_battery)
 			powerdraw_loop(target_battery, H, FALSE)
 			return
@@ -159,7 +160,7 @@
 			return
 /obj/item/apc_powercord/proc/powerdraw_loop(atom/target, mob/living/carbon/human/H, apc_target)
 	H.visible_message("<span class='notice'>[H] inserts a power connector into [target].</span>", "<span class='notice'>You begin to draw power from the [target].</span>")
-	var/obj/item/organ/stomach/battery/battery = H.getorganslot(ORGAN_SLOT_STOMACH)
+	var/obj/item/organ/internal/stomach/battery/battery = H.getorganslot(ORGAN_SLOT_STOMACH)
 	if(apc_target)
 		var/obj/machinery/power/apc/A = target
 		if(!istype(A))
@@ -188,7 +189,7 @@
 				to_chat(H, "<span class='notice'>You are now fully charged.</span>")
 				break
 	else
-		var/obj/item/organ/stomach/battery/A = target
+		var/obj/item/organ/internal/stomach/battery/A = target
 		if(!istype(A))
 			return
 		var/charge_amt

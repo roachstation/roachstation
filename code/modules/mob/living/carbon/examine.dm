@@ -64,7 +64,14 @@
 			continue
 		msg += "[span_warning("<B>[t_His] [parse_zone(t)] is missing!</B>")]\n"
 
+	var/list/harm_descriptors = dna?.species.get_harm_descriptors()
+	var/brute_msg = harm_descriptors?["brute"]
+	var/burn_msg = harm_descriptors?["burn"]
+	var/bleed_msg = harm_descriptors?["bleed"]
 
+	brute_msg = brute_msg ? brute_msg : "bruising"
+	burn_msg = burn_msg ? burn_msg : "burns"
+	bleed_msg = bleed_msg ? bleed_msg : "bleeding"
 	var/temp = getBruteLoss()
 	if(!(user == src && src.hal_screwyhud == SCREWYHUD_HEALTHY)) //fake healthy
 		if(temp)
