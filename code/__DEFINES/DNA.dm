@@ -98,6 +98,8 @@
 #define NO_TONGUE 22
 #define NOAPPENDIX 23
 
+#define REVIVESBYHEALING 24 // Will revive on heal when healing and total HP > 0.
+
 //organ slots
 #define ORGAN_SLOT_ADAMANTINE_RESONATOR "adamantine_resonator"
 #define ORGAN_SLOT_APPENDIX "appendix"

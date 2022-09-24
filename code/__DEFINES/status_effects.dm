@@ -38,3 +38,5 @@
 #define STASIS_CHEMICAL_EFFECT "stasis_chemical"
 
 #define STASIS_SHAPECHANGE_EFFECT "stasis_shapechange"
+
+#define STATUS_EFFECT_IPC_EMP /datum/status_effect/ipc/emp //EMP'd IPC

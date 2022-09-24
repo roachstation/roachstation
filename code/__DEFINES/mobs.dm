@@ -90,6 +90,7 @@
 #define SPECIES_FELINE "felinid"
 #define SPECIES_FLYPERSON "fly"
 #define SPECIES_HUMAN "human"
+#define SPECIES_IPC "ipc"
 #define SPECIES_JELLYPERSON "jelly"
 #define SPECIES_SLIMEPERSON "slime"
 #define SPECIES_LUMINESCENT "luminescent"
@@ -110,6 +111,10 @@
 #define SPECIES_ZOMBIE "zombie"
 #define SPECIES_ZOMBIE_INFECTIOUS "memezombie"
 #define SPECIES_ZOMBIE_KROKODIL "krokodil_zombie"
+
+//Species bitflags, used for species_restricted. If this somehow ever gets above 23 Bee has larger problems.
+#define FLAG_HUMAN			(1<<0)
+#define FLAG_IPC			(1<<1)
 
 // Like species IDs, but not specifically attached a species.
 #define BODYPART_TYPE_ALIEN "alien"
