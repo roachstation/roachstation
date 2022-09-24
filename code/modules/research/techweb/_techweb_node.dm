@@ -10,6 +10,8 @@
 /datum/techweb_node
 	/// Internal ID of the node
 	var/id
+	/// Tech Tier
+	var/tech_tier = 0
 	/// The name of the node as it is shown on UIs
 	var/display_name = "Errored Node"
 	/// A description of the node to show on UIs
@@ -28,6 +30,8 @@
 	var/list/boost_item_paths = list()
 	/// Boosting this will autounlock this node
 	var/autounlock_by_boost = TRUE
+	//Cargo export price.
+	var/export_price = 0
 	/// The points cost to research the node, type = amount
 	var/list/research_costs = list()
 	/// The category of the node
@@ -88,7 +92,7 @@
 			if(actual_costs[booster])
 				var/delta = max(0, actual_costs[booster] - 250)
 				actual_costs[booster] -= min(boostlist[booster], delta)
-	
+
 	return actual_costs
 
 /datum/techweb_node/proc/price_display(datum/techweb/TN)

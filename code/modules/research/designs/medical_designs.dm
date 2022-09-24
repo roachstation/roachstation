@@ -648,7 +648,7 @@
 	build_type = PROTOLATHE | AWAY_LATHE | MECHFAB
 	construction_time = 40
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/silver = 500)
-	build_path = /obj/item/organ/internal/ears/cybernetic/upgraded
+	build_path = /obj/item/organ/internal/ears/cybernetic/tier3
 	category = list(RND_CATEGORY_CYBERNETICS, RND_CATEGORY_MEDICAL_DESIGNS)
 	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL
 
