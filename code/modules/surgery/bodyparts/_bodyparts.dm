@@ -39,7 +39,7 @@
 	var/is_dimorphic = FALSE
 	///The actual color a limb is drawn as, set by /proc/update_limb()
 	var/draw_color //NEVER. EVER. EDIT THIS VALUE OUTSIDE OF UPDATE_LIMB. I WILL FIND YOU. It ruins the limb icon pipeline.
-
+	var/uses_mutcolor = TRUE //Does this limb have a greyscale version?
 	/// BODY_ZONE_CHEST, BODY_ZONE_L_ARM, etc , used for def_zone
 	var/body_zone
 	/// The body zone of this part in english ("chest", "left arm", etc) without the species attached to it
@@ -416,6 +416,10 @@
 			update_disabled()
 		if(updating_health)
 			owner.updatehealth()
+		if(owner.dna.species && (REVIVESBYHEALING in owner.dna.species.species_traits))
+			if(owner.health > 0)
+				owner.revive(0)
+				owner.cure_husk(0) // If it has REVIVESBYHEALING, it probably can't be cloned. No husk cure.
 	cremation_progress = min(0, cremation_progress - ((brute_dam + burn_dam)*(100/max_damage)))
 	return update_bodypart_damage_state()
 
