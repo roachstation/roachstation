@@ -30,6 +30,7 @@
 		STOP_PROCESSING(SSobj, src)
 
 	balloon_alert(user, "[name] [active ? "enabled":"disabled"]")
+	playsound(user ? user : src, active ? 'sound/weapons/crucible_on.ogg' : 'sound/weapons/null.ogg', 35, TRUE)
 	set_light_on(active)
 	return COMPONENT_NO_DEFAULT_MESSAGE
 
@@ -37,9 +38,9 @@
 	name = "Crucible"
 	desc = "A weapon powered by raw wrath or hell energy."
 	icon_state = "c_sword"
-	lefthand_file = ""
-	righthand_file = ""
-	hitsound = SFX_SWING_HIT
+	lefthand_file = 'icons/mob/inhands/weapons/crucible_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/crucible_righthand.dmi'
+	hitsound = 'sound/weapons/crucible.ogg'
 	force = 6
 	throwforce = 6
 	throw_speed = 2
