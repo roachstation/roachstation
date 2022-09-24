@@ -24,7 +24,8 @@
 	var/atom/movable/screen/alert/status_effect/linked_alert
 	/// Used to define if the status effect should be using SSfastprocess or SSprocessing
 	var/processing_speed = STATUS_EFFECT_FAST_PROCESS
-
+	//If defined, this text will appear when the mob is examined - to use he, she etc. use "SUBJECTPRONOUN" and replace it in the examines themselves
+	var/examine_text
 /datum/status_effect/New(list/arguments)
 	on_creation(arglist(arguments))
 
