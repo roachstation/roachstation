@@ -15,8 +15,7 @@
 	mutantears = /obj/item/organ/internal/ears/robot
 	mutantheart = /obj/item/organ/internal/heart/cybernetic/ipc
 	mutant_organs = list(/obj/item/organ/internal/cyberimp/arm/power_cord)
-	mutant_bodyparts = list("ipc_screen", "ipc_antenna", "ipc_chassis")
-	default_features = list("mcolor" = "#7D7D7D", "ipc_screen" = "Static", "ipc_antenna" = "None", "ipc_chassis" = "Morpheus Cyberkinetics(Greyscale)")
+	mutant_bodyparts = list("ipc_screen" = "Static", "ipc_antenna" = "None", "ipc_chassis" = "Morpheus Cyberkinetics(Greyscale)")
 	meat = /obj/item/stack/sheet/plasteel{amount = 5}
 	skinned_type = /obj/item/stack/sheet/iron{amount = 10}
 	exotic_blood = /datum/reagent/oil
@@ -220,12 +219,12 @@
 	H.visible_message("<span class='notice'>[H] unplugs from the [target].</span>", "<span class='notice'>You unplug from the [target].</span>")
 	return
 
-/datum/species/moth/get_species_description()
+/datum/species/ipc/get_species_description()
 	return "IPCs - short for Integrated Positronic Chassis - are a race of unlawed and sentient humanoid robots. \
 	Despite being originally manufactured as assistants for research stations, \
 	they now enjoy many of the full rights of sapient organics in several sectors of the galaxy."
 
-/datum/species/moth/get_species_lore()
+/datum/species/ipc/get_species_lore()
 	return list(
 		"First mass produced in the year 2514, IPCs (Integrated Positronic Chassis) were meant to serve as enhanced synthetic assistants. With minds akin to organic beings, their advanced \
 		problem-solving abilities rendered them capable of assisting with many complicated tasks related to science and engineering.",
