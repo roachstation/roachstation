@@ -2,9 +2,8 @@
 	savefile_key = "feature_ipc_screen"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
-	main_feature_name = = "Screen Style"
+	main_feature_name = "Screen Style"
 	can_randomize = FALSE
-	relevant_external_organ = /obj/item/organ/external/tail/cat
 
 /datum/preference/choiced/ipc_Screen/init_possible_values()
 	var/list/values = list()

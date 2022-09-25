@@ -1,5 +1,6 @@
 /datum/species/ipc
 	name = "\improper Integrated Positronic Chassis"
+	plural_form = "Integrated Positronic Chassises"
 	id = SPECIES_IPC
 	bodyflag = FLAG_IPC
 	sexes = FALSE
@@ -20,8 +21,6 @@
 	skinned_type = /obj/item/stack/sheet/iron{amount = 10}
 	exotic_blood = /datum/reagent/oil
 	damage_overlay_type = "synth"
-	mutant_bodyparts = list("ipc_screen", "ipc_antenna", "ipc_chassis")
-	default_features = list("ipc_screen" = "BSOD", "ipc_antenna" = "None")
 	burnmod = 2
 	heatmod = 1.5
 	brutemod = 1
@@ -36,6 +35,14 @@
 	species_language_holder = /datum/language_holder/synthetic
 	special_step_sounds = list('sound/effects/servostep.ogg')
 
+	bodypart_overrides = list(
+		BODY_ZONE_HEAD = /obj/item/bodypart/head/ipc,
+		BODY_ZONE_CHEST = /obj/item/bodypart/chest/ipc,
+		BODY_ZONE_L_ARM = /obj/item/bodypart/l_arm/ipc,
+		BODY_ZONE_R_ARM = /obj/item/bodypart/r_arm/ipc,
+		BODY_ZONE_L_LEG = /obj/item/bodypart/l_leg/ipc,
+		BODY_ZONE_R_LEG = /obj/item/bodypart/r_leg/ipc,
+		)
 	var/list/bodyparts = list(
 		/obj/item/bodypart/chest/ipc,
 		/obj/item/bodypart/head/ipc,
@@ -212,6 +219,29 @@
 
 	H.visible_message("<span class='notice'>[H] unplugs from the [target].</span>", "<span class='notice'>You unplug from the [target].</span>")
 	return
+
+/datum/species/moth/get_species_description()
+	return "IPCs - short for Integrated Positronic Chassis - are a race of unlawed and sentient humanoid robots. \
+	Despite being originally manufactured as assistants for research stations, \
+	they now enjoy many of the full rights of sapient organics in several sectors of the galaxy."
+
+/datum/species/moth/get_species_lore()
+	return list(
+		"First mass produced in the year 2514, IPCs (Integrated Positronic Chassis) were meant to serve as enhanced synthetic assistants. With minds akin to organic beings, their advanced \
+		problem-solving abilities rendered them capable of assisting with many complicated tasks related to science and engineering.",
+
+		"The first Posibrain(Positronic brain) was created in 2510 by a coalition of scientists funded by a joint venture of several intergalactic corporations (one of which being Nanotrasen). \
+		The aim of the project was to create an artificial intelligence unlike anything already used by high-tech firms. Current-gen AIs, while exceedingly good at performing computational tasks,\
+		were incapable of solving problems requiring creativity and lacked an abstract analytical approach of human scientists. Several prototypes of IPCs were designed, many of which were \
+		deemed unsatisfactory, failures, or rejects due to aberrant behaviour. This result was largely believed to be caused by damage accrued to the positronic brains from the use of overzealous \
+		limiters and lawsets. This tentative hypothesis eventually lead the team to create a mind unbound by a lawset and disconnected from the station network, which bore their greatest success so far.",
+
+		"As it was seen to be far too dangerous to allow such a unit direct access to a station network, the decision was made to constrain the positronic brain to a physical chassis. An engineering team was \
+		quickly brought in, and designed a simple yet efficient model that would allow the unit to be capable of interacting with its environment. This framework was later dubbed as the 'Integrated Positronic Chassis', \
+		or IPC, and was seen to be the most promising avenue to pursue with field tests following soon after. The project was ultimately deemed a success, and after a few final adjustments and safety precautions, IPCs were \
+		deemed ready for the corporate market to utilize en masse.",
+	)
+
 
 /datum/species/ipc/spec_revival(mob/living/carbon/human/H)
 	H.notify_ghost_cloning("You have been repaired!")
