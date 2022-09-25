@@ -693,8 +693,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
 	var/list/standing = list()
 
-	var/obj/item/bodypart/head/HD = source.get_bodypart(BODY_ZONE_HEAD)
-
 	source.remove_overlay(BODY_BEHIND_LAYER)
 	source.remove_overlay(BODY_ADJ_LAYER)
 	source.remove_overlay(BODY_FRONT_LAYER)
@@ -709,12 +707,12 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		if(!source.dna.features["ears"] || source.dna.features["ears"] == "None" || source.head && (source.head.flags_inv & HIDEHAIR) || (source.wear_mask && (source.wear_mask.flags_inv & HIDEHAIR)) || !noggin || !IS_ORGANIC_LIMB(noggin))
 			bodyparts_to_add -= "ears"
 
-	if("ipc_screen" in mutant_bodyparts)
-		if(!source.dna.features["ipc_screen"] || source.dna.features["ipc_screen"] == "None" || (source.wear_mask && (source.wear_mask.flags_inv & HIDEEYES)) || !HD)
+	if(mutant_bodyparts["ipc_screen"])
+		if(!source.dna.features["ipc_screen"] || source.dna.features["ipc_screen"] == "None" || (source.wear_mask && (source.wear_mask.flags_inv & HIDEEYES)) || !noggin)
 			bodyparts_to_add -= "ipc_screen"
 
-	if("ipc_antenna" in mutant_bodyparts)
-		if(!source.dna.features["ipc_antenna"] || source.dna.features["ipc_antenna"] == "None" || source.head && (source.head.flags_inv & HIDEHAIR) || (source.wear_mask && (source.wear_mask.flags_inv & HIDEHAIR)) || !HD)
+	if(mutant_bodyparts["ipc_antenna"])
+		if(!source.dna.features["ipc_antenna"] || source.dna.features["ipc_antenna"] == "None" || source.head && (source.head.flags_inv & HIDEHAIR) || (source.wear_mask && (source.wear_mask.flags_inv & HIDEHAIR)) || !noggin)
 			bodyparts_to_add -= "ipc_antenna"
 	if(!bodyparts_to_add)
 		return
