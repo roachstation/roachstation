@@ -219,6 +219,9 @@
 	H.visible_message("<span class='notice'>[H] unplugs from the [target].</span>", "<span class='notice'>You unplug from the [target].</span>")
 	return
 
+/datum/species/ipc/randomize_features(mob/living/carbon/human/human_mob)
+	human_mob.dna.features["ipc_chassis"] = pick(GLOB.ipc_chassis_list)
+
 /datum/species/ipc/get_species_description()
 	return "IPCs - short for Integrated Positronic Chassis - are a race of unlawed and sentient humanoid robots. \
 	Despite being originally manufactured as assistants for research stations, \
