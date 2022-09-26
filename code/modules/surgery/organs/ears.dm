@@ -136,7 +136,7 @@
 	damage_multiplier = 0.9
 	organ_flags = ORGAN_SYNTHETIC
 
-/obj/item/organ/internal/ears/cybernetic/tier3
+/obj/item/organ/internal/ears/cybernetic/upgraded
 	name = "upgraded cybernetic ears"
 	icon_state = "ears-c-u"
 	desc = "An advanced cybernetic ear, surpassing the performance of organic ears."

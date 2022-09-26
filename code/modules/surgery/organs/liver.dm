@@ -236,7 +236,7 @@
 	toxLethality = 0.8 * LIVER_DEFAULT_TOX_LETHALITY //20% less damage than a normal liver
 	emp_vulnerability = 40
 
-/obj/item/organ/internal/liver/cybernetic/tier3
+/obj/item/organ/internal/liver/cybernetic/upgraded
 	name = "upgraded cybernetic liver"
 	icon_state = "liver-c-u2"
 	desc = "An upgraded version of the cybernetic liver, designed to improve further upon organic livers. It is resistant to alcohol poisoning and is very robust at filtering toxins."
@@ -256,7 +256,7 @@
 	if(prob(emp_vulnerability/severity)) //Chance of permanent effects
 		organ_flags |= ORGAN_SYNTHETIC_EMP //Starts organ faliure - gonna need replacing soon.
 
-/obj/item/organ/internal/liver/cybernetic/tier3/ipc
+/obj/item/organ/internal/liver/cybernetic/upgraded/ipc
 	name = "substance processor"
 	icon_state = "substance_processor"
 	attack_verb_simple = list("processed")
@@ -267,7 +267,7 @@
 	toxLethality = 0
 	status = ORGAN_ROBOTIC
 
-/obj/item/organ/internal/liver/cybernetic/tier3/ipc/emp_act(severity)
+/obj/item/organ/internal/liver/cybernetic/upgraded/ipc/emp_act(severity)
 	to_chat(owner, "<span class='warning'>Alert: Your Substance Processor has been damaged. An internal chemical leak is affecting performance.</span>")
 	switch(severity)
 		if(1)

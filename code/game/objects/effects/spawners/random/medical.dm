@@ -71,7 +71,7 @@
 		/obj/item/organ/internal/eyes/robotic/flashlight = 1,
 		/obj/item/organ/internal/eyes/night_vision = 1,
 		/obj/item/organ/internal/liver/cybernetic = 4,
-		/obj/item/organ/internal/liver/cybernetic/tier3/ipc = 3,
+		/obj/item/organ/internal/liver/cybernetic/upgraded/ipc = 3,
 		/obj/item/organ/internal/lungs/cybernetic = 4,
 		/obj/item/organ/internal/lungs/cybernetic/tier3= 2,
 		/obj/item/organ/internal/stomach/battery/ipc = 4,

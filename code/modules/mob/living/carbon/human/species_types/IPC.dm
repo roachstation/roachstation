@@ -10,7 +10,7 @@
 	mutantbrain = /obj/item/organ/internal/brain/positron
 	mutanteyes = /obj/item/organ/internal/eyes/robotic
 	mutanttongue = /obj/item/organ/internal/tongue/robot
-	mutantliver = /obj/item/organ/internal/liver/cybernetic/tier3/ipc
+	mutantliver = /obj/item/organ/internal/liver/cybernetic/upgraded/ipc
 	mutantstomach = /obj/item/organ/internal/stomach/battery/ipc
 	mutantears = /obj/item/organ/internal/ears/robot
 	mutantheart = /obj/item/organ/internal/heart/cybernetic/ipc

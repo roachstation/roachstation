@@ -35,7 +35,7 @@
 	wanted_types = list(
 		/obj/item/organ/internal/ears = TRUE,
 		/obj/item/organ/internal/ears/cybernetic = FALSE,
-		/obj/item/organ/internal/ears/cybernetic/tier3 = TRUE,
+		/obj/item/organ/internal/ears/cybernetic/upgraded = TRUE,
 	)
 
 /datum/bounty/item/medical/liver
@@ -47,7 +47,7 @@
 		/obj/item/organ/internal/liver = TRUE,
 		/obj/item/organ/internal/liver/cybernetic = FALSE,
 		/obj/item/organ/internal/liver/cybernetic/tier2 = TRUE,
-		/obj/item/organ/internal/liver/cybernetic/tier3 = TRUE,
+		/obj/item/organ/internal/liver/cybernetic/upgraded = TRUE,
 	)
 
 /datum/bounty/item/medical/eye
