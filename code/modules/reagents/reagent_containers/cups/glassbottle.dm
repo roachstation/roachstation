@@ -734,3 +734,9 @@
 	age_restricted = TRUE
 
 #undef BOTTLE_KNOCKDOWN_DEFAULT_DURATION
+
+/obj/item/reagent_containers/cup/glass/bottle/shalgam
+	name = "Shalgam Bottle"
+	desc = "Mahmud? Who the heck is that!"
+	icon_state = "shalgam_bottle"
+	list_reagents = list(/datum/reagent/consumable/ethanol/shalgm = 100)
