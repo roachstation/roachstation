@@ -12,6 +12,11 @@
 
 // Cocktails
 
+/datum/chemical_reaction/drink/raki
+	results = list(/datum/reagent/consumable/ethanol/raki = 5)
+	required_reagents = list(/datum/reagent/consumable/ethanol/vodka = 1, /datum/reagent/water = 1, /datum/reagent/consumable/ice = 1)
+	reaction_tags = REACTION_TAG_DRINK | REACTION_TAG_EASY | REACTION_TAG_OTHER
+
 /datum/chemical_reaction/drink/goldschlager
 	results = list(/datum/reagent/consumable/ethanol/goldschlager = 10)
 	required_reagents = list(/datum/reagent/consumable/ethanol/vodka = GOLDSCHLAGER_VODKA, /datum/reagent/gold = GOLDSCHLAGER_GOLD)
