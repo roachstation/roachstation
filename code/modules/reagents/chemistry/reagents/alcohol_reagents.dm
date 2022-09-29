@@ -186,6 +186,19 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	glass_price = DRINK_PRICE_STOCK
 
+/datum/reagent/consumable/ethanol/raki
+	name = "Raki"
+	description = "Test"
+	color = "#0064C8" // rgb: 0, 100, 200
+	boozepwr = 79
+	taste_description = "sad and wistful"
+	glass_icon_state = "raki"
+	glass_name = "glass of raki"
+	glass_desc = "The glass contain raki."
+	shot_glass_icon_state = "shotglassclear"
+	ph = 8.1
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED|REAGENT_CLEANS //Very high proof
+
 /datum/reagent/consumable/ethanol/whiskey/kong
 	name = "Kong"
 	description = "Makes You Go Ape!&#174;"
