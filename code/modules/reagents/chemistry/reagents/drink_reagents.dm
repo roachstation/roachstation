@@ -1307,3 +1307,26 @@
 	if(doll.getToxLoss() && DT_PROB(10, delta_time))
 		doll.adjustToxLoss(-0.5, 0)
 	return ..()
+	
+/datum/reagent/consumable/ayran
+	name = "Ayran"
+	description = "Makes you feel old"
+	color = "#e5e5e5" // rgb: 229, 229, 229
+	taste_description = "moldy milk"
+	glass_icon_state = "ayran"
+	glass_name = "A glass of ayran"
+	glass_desc = "It looks like milk, and it tastes like milk."
+	
+/datum/reagent/consumable/ethanol/shalgm
+	name = "Shalgam"
+	description = "Please note that we are not going to pay for you incoming liver surgery after drinking this booze."
+	color = "#e81240" // rgb: purplish and redish idk, fuck
+	boozepwr = 100
+	taste_description = "life and death"
+	glass_icon_state = "shalgam"
+	glass_name = "glass of shalgam"
+	glass_desc = "MOM, I CANNOT FIND MY BALLS!"
+	ph = 12
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+	
+
