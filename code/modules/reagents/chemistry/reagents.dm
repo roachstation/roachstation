@@ -36,6 +36,8 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	var/shot_glass_icon_state = null
 	/// fallback icon if  the reagent has no glass or shot glass icon state. Used for restaurants.
 	var/fallback_icon_state = null
+	var/process_flags = ORGANIC
+	// What can process this? ORGANIC, SYNTHETIC, or ORGANIC | SYNTHETIC?. We'll assume by default that it affects organics.
 	/// reagent holder this belongs to
 	var/datum/reagents/holder = null
 	/// LIQUID, SOLID, GAS

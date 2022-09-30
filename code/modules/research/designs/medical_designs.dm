@@ -550,7 +550,7 @@
 	id = "cybernetic_liver_tier3"
 	construction_time = 50
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/silver=500)
-	build_path = /obj/item/organ/internal/liver/cybernetic/tier3
+	build_path = /obj/item/organ/internal/liver/cybernetic/upgraded
 
 /datum/design/cybernetic_heart
 	name = "Basic Cybernetic Heart"

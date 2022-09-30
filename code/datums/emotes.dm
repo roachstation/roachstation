@@ -28,6 +28,8 @@
 	var/message_AI = ""
 	/// Message displayed if the user is a monkey.
 	var/message_monkey = ""
+	// Message to display if the user is an IPC
+	var/message_ipc = ""
 	/// Message to display if the user is a simple_animal.
 	var/message_simple = ""
 	/// Message with %t at the end to allow adding params to the message, like for mobs doing an emote relatively to something else.
@@ -201,6 +203,8 @@
 		. = message_AI
 	else if(ismonkey(user) && message_monkey)
 		. = message_monkey
+	else if(isipc(user) && message_ipc)
+		. = message_ipc
 	else if(isanimal(user) && message_simple)
 		. = message_simple
 

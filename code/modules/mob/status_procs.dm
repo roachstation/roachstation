@@ -101,3 +101,19 @@
 /mob/proc/adjust_bodytemperature(amount,min_temp=0,max_temp=INFINITY)
 	if(bodytemperature >= min_temp && bodytemperature <= max_temp)
 		bodytemperature = clamp(bodytemperature + amount,min_temp,max_temp)
+
+///Set the jitter of a mob
+/mob/proc/Jitter(amount)
+	jitteriness = max(jitteriness,amount,0)
+
+/**
+  * Set the dizzyness of a mob to a passed in amount
+  *
+  * Except if dizziness is already higher in which case it does nothing
+  */
+/mob/proc/Dizzy(amount)
+	dizziness = max(dizziness,amount,0)
+
+///FOrce set the dizzyness of a mob
+/mob/proc/set_dizziness(amount)
+	dizziness = max(amount, 0)
