@@ -726,3 +726,12 @@
 		'sound/effects/slosh.ogg' = 1,
 		'sound/effects/splat.ogg' = 2
 	)
+
+/obj/item/toy/plush/steveplushie
+	name = "steve plushie"
+	desc = "This is a plushie from the ancient ages."
+	icon_state = "stevefromminecraft"
+	attack_verb_continuous = list("slaps", "hits", "shwacks")
+	attack_verb_simple = list("slap", "hit", "shwack")
+	squeak_override = list('sound/weapons/mcplushsqueak.ogg'=1)
+
