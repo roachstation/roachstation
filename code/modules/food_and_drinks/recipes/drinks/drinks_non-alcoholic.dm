@@ -161,4 +161,9 @@
 /datum/chemical_reaction/drink/cucumberlemonade
 	results = list(/datum/reagent/consumable/cucumberlemonade = 5)
 	required_reagents = list(/datum/reagent/consumable/lemon_lime = 3, /datum/reagent/consumable/cucumberjuice = 2, /datum/reagent/consumable/ice = 1)
+	
+/datum/chemical_reaction/drink/ayran
+	results = list(/datum/reagent/consumable/ayran = 5)
+	required_reagents = list(/datum/reagent/consumable/milk = 3, /datum/reagent/consumable/sugar = 2)
+
 
