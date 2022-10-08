@@ -9,6 +9,11 @@
 	name = "ATV key"
 	desc = "A small grey key for starting and operating ATVs."
 
+/obj/item/key/havuc
+	name = "Havuc"
+	icon_state = "havuc"
+	desc = "Eşeği evcilleştirmenizi sağlar."
+
 /obj/item/key/security
 	desc = "A keyring with a small steel key, and a rubber stun baton accessory."
 	icon_state = "keysec"
