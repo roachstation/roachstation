@@ -18,6 +18,7 @@
 		/obj/item/reagent_containers/cup/soda_cans/tonic = 8,
 		/obj/item/reagent_containers/cup/soda_cans/sodawater = 15,
 		/obj/item/reagent_containers/cup/soda_cans/sol_dry = 8,
+		/obj/item/reagent_containers/cup/glass/bottle/shalgam = 12,
 		/obj/item/reagent_containers/cup/glass/bottle/grenadine = 4,
 		/obj/item/reagent_containers/cup/glass/bottle/shalgam = 12,
 		/obj/item/reagent_containers/cup/glass/bottle/ale = 6,

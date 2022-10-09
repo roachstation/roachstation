@@ -8,6 +8,7 @@
 	product_slogans = "Dress for success!;Suited and booted!;It's show time!;Why leave style up to fate? Use AutoDrobe!"
 	vend_reply = "Thank you for using AutoDrobe!"
 	products = list(
+		/obj/item/toy/plush/steveplushie = 1,
 		/obj/item/clothing/suit/costume/chickensuit = 1,
 		/obj/item/clothing/head/chicken = 1,
 		/obj/item/clothing/under/rank/civilian/clown/blue = 1,
@@ -149,6 +150,7 @@
 		/obj/item/clothing/under/costume/deckers = 5,
 	)
 	contraband = list(
+		/obj/item/toy/plush/steveplushie = 3,
 		/obj/item/clothing/suit/costume/judgerobe = 1,
 		/obj/item/clothing/head/powdered_wig = 1,
 		/obj/item/gun/magic/wand/nothing = 2,

@@ -26,7 +26,8 @@
 	icon_state = "chilipepper"
 	bite_consumption_mod = 2
 	foodtypes = FRUIT
-	wine_power = 20
+	tastes = list("solid shalgam" = 1)
+	distill_reagent = /datum/reagent/consumable/ethanol/shalgm
 
 // Ice Chili
 /obj/item/seeds/chili/ice
